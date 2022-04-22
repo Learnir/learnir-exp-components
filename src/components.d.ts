@@ -14,6 +14,7 @@ export namespace Components {
         "consumer": string;
         "data": object;
         "options": any;
+        "request": Function;
         "submit": Function;
         "submitted": boolean;
     }
@@ -45,6 +46,7 @@ declare namespace LocalJSX {
         "consumer"?: string;
         "data"?: object;
         "options"?: any;
+        "request"?: Function;
         "submit"?: Function;
         "submitted"?: boolean;
     }

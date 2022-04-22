@@ -57,7 +57,7 @@ export class LearnirExp {
 
   componentWillLoad() {
     this.loading = true;
-    axios.get(`${this.endpoint}/integration/api/component/${this.component}`).then(response => {
+    axios.get(`${this.endpoint}/integration/module/component/${this.component}`).then(response => {
       this.data = response.data;
       this.loading = false;
     }).catch(() => {
@@ -67,15 +67,23 @@ export class LearnirExp {
 
   Componenter = () => {
     const SubmitInteractionData = (data) => {
-      console.log("submit-this-data:: ", data);
-      axios.post(`${this.endpoint}/integration/api/component/interaction`, data).then(response => {
+      axios.post(`${this.endpoint}/integration/module/component/interaction`, data).then(response => {
         this.data = response.data;
         this.submitted = true;
       }).catch(() => {
         this.submitted = false;
       });
     };
-    
+
+    const GetInteractionData = () => {
+      axios.get(`${this.endpoint}/integration/module/component/interaction/${this.component}`).then(response => {
+        this.data = response.data;
+        this.submitted = true;
+      }).catch(() => {
+        this.submitted = false;
+      });
+    };
+
     switch (this.data["component"]) {
       case "quiz":
         return (<quiz-component
@@ -83,6 +91,7 @@ export class LearnirExp {
           consumer={this.consumer}
           options={this.components["children"][0].collection}
           submit={SubmitInteractionData}
+          request={GetInteractionData}
           submitted={this.submitted}
         ></quiz-component>)
     }

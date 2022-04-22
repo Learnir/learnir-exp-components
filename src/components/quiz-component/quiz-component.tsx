@@ -11,6 +11,7 @@ export class QuizComponent {
   @Prop() consumer: string;
   @Prop() options; // quiz options
   @Prop() submit: Function;
+  @Prop() request: Function;
   @Prop() submitted: boolean;
 
   // based on the quiz id, we can render the right type of quiz
@@ -80,11 +81,36 @@ export class QuizComponent {
                   {this.data["blocks"].filter(block => block.answer == block.choice).length} of {this.data["blocks"].length} Correct ({Math.round(this.data["blocks"].filter(block => block.answer == block.choice).length / this.data["blocks"].length * 100)}%)
                 </p>
 
-
                 <h4 class="text-small mt-5"> The Answers: </h4>
                 <p class="text-small mt-1">
                   {/* Render questions,  */}
+                  {this.data["blocks"].map((block, index) => (
+                    <div class="mt-4" key={index}>
+                      <h6 class="mb-3 text-bold"> {block.question} </h6>
+                      {block.answers.map((answer, index1) => (
+                        <div key={index1} class="form-check mt-2">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name={`block-${index}`}
+                            id="flexRadioDefault2"
+                            value={answer}
+                            checked={block.answer === index1}
+                          />
+                          <label class="form-check-label" htmlFor="flexRadioDefault2">
+                            {block.answer === index1 ? answer : <s>{answer}</s>}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
                 </p>
+
+                <button type="button" class="btn btn-primary mt-4" onClick={() => {
+                  this.request();
+                  this.submitted = false;
+                  console.log("reset quiz");
+                }}>Want to redo this quiz?</button>
 
               </div>
             }
