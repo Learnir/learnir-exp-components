@@ -17,8 +17,9 @@ export class LearnirExp {
 
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
-  @State() endpoint: string = local ? "http://localhost:9060/v1" : "https://api.learnir.co/v1";;
+  @State() submitted: boolean = false;
 
+  @State() endpoint: string = local ? "http://localhost:9060/v1" : "https://api.learnir.co/v1";;
   @State() components: object = {
     title: "Visual Component",
     description: "(Think quizes, final course section certification, Commerce to recieve payments etc) - Anything visual your learners will interact with.",
@@ -65,9 +66,25 @@ export class LearnirExp {
   }
 
   Componenter = () => {
+    const SubmitInteractionData = (data) => {
+      console.log("submit-this-data:: ", data);
+      axios.post(`${this.endpoint}/integration/api/component/interaction`, data).then(response => {
+        this.data = response.data;
+        this.submitted = true;
+      }).catch(() => {
+        this.submitted = false;
+      });
+    };
+    
     switch (this.data["component"]) {
       case "quiz":
-        return (<quiz-component data={this.data} consumer={this.consumer} options={this.components["children"][0].collection}></quiz-component>)
+        return (<quiz-component
+          data={this.data}
+          consumer={this.consumer}
+          options={this.components["children"][0].collection}
+          submit={SubmitInteractionData}
+          submitted={this.submitted}
+        ></quiz-component>)
     }
   }
 

@@ -14,6 +14,8 @@ export namespace Components {
         "consumer": string;
         "data": object;
         "options": any;
+        "submit": Function;
+        "submitted": boolean;
     }
 }
 declare global {
@@ -43,6 +45,8 @@ declare namespace LocalJSX {
         "consumer"?: string;
         "data"?: object;
         "options"?: any;
+        "submit"?: Function;
+        "submitted"?: boolean;
     }
     interface IntrinsicElements {
         "learnir-exp": LearnirExp;

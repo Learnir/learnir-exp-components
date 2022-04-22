@@ -10,8 +10,8 @@ export class QuizComponent {
   @Prop() data: object;
   @Prop() consumer: string;
   @Prop() options; // quiz options
-
-  @State() submitted: boolean = false;
+  @Prop() submit: Function;
+  @Prop() submitted: boolean;
 
   // based on the quiz id, we can render the right type of quiz
   // based on the quiz component data, we can setup the answers and send back for evaluation
@@ -24,10 +24,10 @@ export class QuizComponent {
     // handle data-checks
     // check if all component blocks have the choice setup
     // check if consumer is true
-
-    let allow = this.data["blocks"].every( block => block.choice !== undefined);
-
-    
+    let allow = this.data["blocks"].every(block => block.choice !== undefined);
+    if (allow) {
+      this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }); // component+consumer
+    }
   }
 
   Quizzed = () => {
@@ -49,7 +49,7 @@ export class QuizComponent {
                       id="flexRadioDefault2"
                       value={answer}
                       checked={block.answers[block.answer].choice === index1}
-                      onInput={(e) => {
+                      onInput={() => {
                         let blocks = this.data["blocks"];
                         blocks[index].choice = index1; // set the users answer to the block index
                         this.data = { ...this.data, blocks };
@@ -62,7 +62,7 @@ export class QuizComponent {
             ))}
 
             <button type="button" class="btn btn-primary mt-4" onClick={this.SubmitQuiz}>Submit</button>
-            <p class="text-small mt-3"> {this.consumer ? "": "Identification not present, please contact support"} </p>
+            <p class="text-small mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
 
           </div>
         )
