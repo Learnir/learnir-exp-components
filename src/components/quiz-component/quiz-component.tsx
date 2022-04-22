@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop } from '@stencil/core';
+import { Component, Host, h, Prop, State } from '@stencil/core';
 
 @Component({
   tag: 'quiz-component',
@@ -7,8 +7,11 @@ import { Component, Host, h, Prop } from '@stencil/core';
 })
 export class QuizComponent {
 
-  @Prop() component: object;
-  @Prop() collection;
+  @Prop() data: object;
+  @Prop() consumer: string;
+  @Prop() options; // quiz options
+
+  @State() submitted: boolean = false;
 
   // based on the quiz id, we can render the right type of quiz
   // based on the quiz component data, we can setup the answers and send back for evaluation
@@ -17,35 +20,40 @@ export class QuizComponent {
   // on submission, we save the response object of the component
   // we then tag the consumer to the component
 
-  private handleInput = (ev: Event) => {
-    console.log('handle input')
-  }
+  private SubmitQuiz = () => {
+    // handle data-checks
+    // check if all component blocks have the choice setup
+    // check if consumer is true
 
-  
-  private handleClick = (ev: Event) => {
-    // this works
-    console.log('handle click')
+    let allow = this.data["blocks"].every( block => block.choice !== undefined);
+
+    
   }
 
   Quizzed = () => {
     let index = 0;
-    switch (this.component["comp"]) {
-      case this.collection[index].id: // single choice answering
+    switch (this.data["comp"]) {
+      case this.options[index].id: // single choice answering
         return (
           <div>
-            {this.component["blocks"].map((block, index) => (
-              <div class="mt-4 border" key={index}>
+            {this.data["blocks"].map((block, index) => (
+              <div class="mt-4" key={index}>
                 <h6 class="mb-3 text-bold"> {block.question} </h6>
 
-                {block.answers.map((answer, index) => (
-                  <div key={index} class="form-check mt-2">
+                {block.answers.map((answer, index1) => (
+                  <div key={index1} class="form-check mt-2">
                     <input
                       class="form-check-input"
                       type="radio"
-                      name="flexRadioDefault"
+                      name={`block-${index}`}
                       id="flexRadioDefault2"
-                      onClick={this.handleClick}
-                      onInput={this.handleInput}
+                      value={answer}
+                      checked={block.answers[block.answer].choice === index1}
+                      onInput={(e) => {
+                        let blocks = this.data["blocks"];
+                        blocks[index].choice = index1; // set the users answer to the block index
+                        this.data = { ...this.data, blocks };
+                      }}
                     />
                     <label class="form-check-label" htmlFor="flexRadioDefault2">{answer}</label>
                   </div>
@@ -53,11 +61,12 @@ export class QuizComponent {
               </div>
             ))}
 
-            <button type="button" class="btn btn-primary mt-4">Submit</button>
+            <button type="button" class="btn btn-primary mt-4" onClick={this.SubmitQuiz}>Submit</button>
+            <p class="text-small mt-3"> {this.consumer ? "": "Identification not present, please contact support"} </p>
 
           </div>
         )
-      case this.collection[index = +1].id: // multi choice answering
+      case this.options[index = +1].id: // multi choice answering
         return (
           <div>
             <p> Multi Choice... </p>
@@ -76,12 +85,9 @@ export class QuizComponent {
     return (
       <Host>
         <slot>
-
-          <h3 class=""> {this.component["title"]} </h3>
-          <p class="mt-0"> {this.component["summary"]} </p>
-
+          <h3 class=""> {this.data["title"]} </h3>
+          <p class="mt-0"> {this.data["summary"]} </p>
           {this.Quizzed()}
-
         </slot>
       </Host>
     );

@@ -7,11 +7,13 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface LearnirExp {
-        "comp": string;
+        "component": string;
+        "consumer": string;
     }
     interface QuizComponent {
-        "collection": any;
-        "component": object;
+        "consumer": string;
+        "data": object;
+        "options": any;
     }
 }
 declare global {
@@ -34,11 +36,13 @@ declare global {
 }
 declare namespace LocalJSX {
     interface LearnirExp {
-        "comp"?: string;
+        "component"?: string;
+        "consumer"?: string;
     }
     interface QuizComponent {
-        "collection"?: any;
-        "component"?: object;
+        "consumer"?: string;
+        "data"?: object;
+        "options"?: any;
     }
     interface IntrinsicElements {
         "learnir-exp": LearnirExp;

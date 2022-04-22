@@ -12,8 +12,10 @@ import '@spectrum-web-components/bundle/elements.js';
 })
 export class LearnirExp {
 
-  @Prop() comp: string;
-  @State() component: object;
+  @Prop() component: string;
+  @Prop() consumer: string;
+
+  @State() data: object; // gotten from request to api server
   @State() loading: boolean;
   @State() endpoint: string = local ? "http://localhost:9060/v1" : "https://api.learnir.co/v1";;
 
@@ -54,9 +56,8 @@ export class LearnirExp {
 
   componentWillLoad() {
     this.loading = true;
-    axios.get(`${this.endpoint}/integration/api/component/${this.comp}`).then(response => {
-      console.log("response", response.data);
-      this.component = response.data;
+    axios.get(`${this.endpoint}/integration/api/component/${this.component}`).then(response => {
+      this.data = response.data;
       this.loading = false;
     }).catch(() => {
       this.loading = false;
@@ -64,9 +65,9 @@ export class LearnirExp {
   }
 
   Componenter = () => {
-    switch (this.component["component"]) {
+    switch (this.data["component"]) {
       case "quiz":
-        return (<quiz-component component={this.component} collection={this.components["children"][0].collection}></quiz-component>)
+        return (<quiz-component data={this.data} consumer={this.consumer} options={this.components["children"][0].collection}></quiz-component>)
     }
   }
 
@@ -81,11 +82,7 @@ export class LearnirExp {
               </div>
               :
               <div class="loaded-component">
-                {this.component ?
-                  this.Componenter()
-                  :
-                  <p> This learning component is currently not present, please check for your internet and contact support. </p>
-                }
+                {this.data ? this.Componenter() : <p> This learning component is currently not present, please check for your internet and contact support. </p>}
               </div>
             }
           </div>
