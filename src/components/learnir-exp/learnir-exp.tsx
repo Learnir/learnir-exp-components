@@ -94,9 +94,7 @@ export class LearnirExp {
         this.submitted = false;
       });
     };
-
-    console.log("submitted-exp", this.submitted);
-
+    
     switch (this.data["component"]) {
       case "quiz":
         return (<quiz-component
