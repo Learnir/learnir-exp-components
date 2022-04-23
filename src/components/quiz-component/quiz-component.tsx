@@ -21,21 +21,8 @@ export class QuizComponent {
     // console.log('got new_submitted: ', new_submitted);
   }
 
-  // based on the quiz id, we can render the right type of quiz
-  // based on the quiz component data, we can setup the answers and send back for evaluation
-
-  // the flow happens per quiz block
-  // on submission, we save the response object of the component
-  // we then tag the consumer to the component
-
-  // if submitted is true, render the submitted page instead
-  // find how many of the component answers match the choice
   Quizzed = () => {
-
     let submit = () => {
-      // handle data-checks
-      // check if all component blocks have the choice setup
-      // check if consumer is true
       let allow = this.data["blocks"].every(block => block.choice !== undefined);
       if (allow) {
         this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
@@ -47,7 +34,6 @@ export class QuizComponent {
         alert("Your interaction data/answers aren't valid")
       }
     }
-
     let index = 0;
     switch (this.data["comp"]) {
       case this.options[index].id: // single choice answering

@@ -72,7 +72,6 @@ export class LearnirExp {
   }
 
   Componenter = () => {
-
     let SubmitInteractionData = (data) => {
       return new Promise((resolve, reject) => {
         axios.post(`${this.endpoint}/integration/module/component/interaction`, data).then(response => {
