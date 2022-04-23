@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, Watch } from '@stencil/core';
 
 @Component({
   tag: 'quiz-component',
@@ -10,9 +10,16 @@ export class QuizComponent {
   @Prop() data: object;
   @Prop() consumer: string;
   @Prop() options; // quiz options
+
   @Prop() submit: Function;
   @Prop() request: Function;
   @Prop() submitted: boolean;
+
+  @Watch('submitted')
+  HandleSubmitChanges(new_submitted: boolean, old_submmited: boolean) {
+    // console.log('got old_submmited: ', old_submmited);
+    // console.log('got new_submitted: ', new_submitted);
+  }
 
   // based on the quiz id, we can render the right type of quiz
   // based on the quiz component data, we can setup the answers and send back for evaluation
@@ -21,22 +28,26 @@ export class QuizComponent {
   // on submission, we save the response object of the component
   // we then tag the consumer to the component
 
-  private SubmitQuiz = () => {
-    // handle data-checks
-    // check if all component blocks have the choice setup
-    // check if consumer is true
-    let allow = this.data["blocks"].every(block => block.choice !== undefined);
-    if (allow) {
-      this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }); // component+consumer
-    } else {
-      alert("Your interaction data/answers aren't valid")
-    }
-  }
-
-
   // if submitted is true, render the submitted page instead
   // find how many of the component answers match the choice
   Quizzed = () => {
+
+    let submit = () => {
+      // handle data-checks
+      // check if all component blocks have the choice setup
+      // check if consumer is true
+      let allow = this.data["blocks"].every(block => block.choice !== undefined);
+      if (allow) {
+        this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
+          this.submitted = true;
+        }).catch(() => {
+          this.submitted = false;
+        })
+      } else {
+        alert("Your interaction data/answers aren't valid")
+      }
+    }
+
     let index = 0;
     switch (this.data["comp"]) {
       case this.options[index].id: // single choice answering
@@ -68,8 +79,9 @@ export class QuizComponent {
                     ))}
                   </div>
                 ))}
-                <button type="button" class="btn btn-primary mt-4" onClick={this.SubmitQuiz}>Submit</button>
+                <button type="button" class="btn btn-primary mt-4" onClick={submit}>Submit</button>
                 <p class="text-small mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
+
               </div>
               :
               <div>
@@ -107,9 +119,8 @@ export class QuizComponent {
                 </p>
 
                 <button type="button" class="btn btn-primary mt-4" onClick={() => {
-                  this.request();
                   this.submitted = false;
-                  console.log("reset quiz");
+                  this.request();
                 }}>Want to redo this quiz?</button>
 
               </div>

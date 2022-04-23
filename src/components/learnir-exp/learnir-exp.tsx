@@ -60,14 +60,34 @@ export class LearnirExp {
     axios.get(`${this.endpoint}/integration/module/component/${this.component}`).then(response => {
       this.data = response.data;
       this.loading = false;
+      axios.get(`${this.endpoint}/integration/module/component/interaction/${this.component}-${this.consumer}`).then(response => {
+        this.data = response.data;
+        this.submitted = true;
+      }).catch(() => {
+        this.submitted = false;
+      });
     }).catch(() => {
       this.loading = false;
     })
   }
 
   Componenter = () => {
-    const SubmitInteractionData = (data) => {
-      axios.post(`${this.endpoint}/integration/module/component/interaction`, data).then(response => {
+
+    let SubmitInteractionData = (data) => {
+      return new Promise((resolve, reject) => {
+        axios.post(`${this.endpoint}/integration/module/component/interaction`, data).then(response => {
+          this.data = response.data;
+          this.submitted = true;
+          resolve(response);
+        }).catch((error) => {
+          this.submitted = false;
+          reject(error);
+        });
+      })
+    };
+
+    let GetInteractionData = () => {
+      axios.get(`${this.endpoint}/integration/module/component/interaction/${this.component}-${this.consumer}`).then(response => {
         this.data = response.data;
         this.submitted = true;
       }).catch(() => {
@@ -75,14 +95,7 @@ export class LearnirExp {
       });
     };
 
-    const GetInteractionData = () => {
-      axios.get(`${this.endpoint}/integration/module/component/interaction/${this.component}`).then(response => {
-        this.data = response.data;
-        this.submitted = true;
-      }).catch(() => {
-        this.submitted = false;
-      });
-    };
+    console.log("submitted-exp", this.submitted);
 
     switch (this.data["component"]) {
       case "quiz":
