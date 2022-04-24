@@ -10,21 +10,33 @@
   color: #101840;
 }
 
-.btn-primary {
+button {
   background: #3366ff;
   border: none;
+  padding: 10px 15px 10px 15px;
+  color: white;
+  border-radius: 5px;
 }
 
-
-h1,h2,h3{
-  line-height: 16px;
-  font-weight: 600;
-  font-size: 18px;
-}
-
-
-h4,h5,h6{
-  line-height: 16px;
+h1,
+h2,
+h3 {
+  line-height: 14px;
   font-weight: 600;
   font-size: 14px;
+  letter-spacing: 0;
+}
+
+h4,
+h5,
+h6 {
+  line-height: 14px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+p,
+label {
+  line-height: 14px;
+  font-size: 12px;
 }

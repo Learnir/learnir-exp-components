@@ -1,7 +1,7 @@
 import { Config } from '@stencil/core';
 
 export const config: Config = {
-  namespace: 'learnir-exp-module',
+  namespace: 'learnir-exp',
   outputTargets: [
     {
       type: 'dist',
