@@ -1,18 +1,18 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { LearnirExp } from '../learnir-exp';
+import { LearnirExpModule } from '../learnir-exp-module';
 
-describe('learnir-exp', () => {
+describe('learnir-exp-module', () => {
   it('renders', async () => {
     const page = await newSpecPage({
-      components: [LearnirExp],
-      html: `<learnir-exp></learnir-exp>`,
+      components: [LearnirExpModule],
+      html: `<learnir-exp-module></learnir-exp-module>`,
     });
     expect(page.root).toEqualHtml(`
-      <learnir-exp>
+      <learnir-exp-module>
         <mock:shadow-root>
           <slot></slot>
         </mock:shadow-root>
-      </learnir-exp>
+      </learnir-exp-module>
     `);
   });
 });

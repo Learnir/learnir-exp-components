@@ -6,7 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface LearnirExp {
+    interface LearnirExpModule {
         "component": string;
         "consumer": string;
     }
@@ -20,11 +20,11 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLLearnirExpElement extends Components.LearnirExp, HTMLStencilElement {
+    interface HTMLLearnirExpModuleElement extends Components.LearnirExpModule, HTMLStencilElement {
     }
-    var HTMLLearnirExpElement: {
-        prototype: HTMLLearnirExpElement;
-        new (): HTMLLearnirExpElement;
+    var HTMLLearnirExpModuleElement: {
+        prototype: HTMLLearnirExpModuleElement;
+        new (): HTMLLearnirExpModuleElement;
     };
     interface HTMLQuizComponentElement extends Components.QuizComponent, HTMLStencilElement {
     }
@@ -33,12 +33,12 @@ declare global {
         new (): HTMLQuizComponentElement;
     };
     interface HTMLElementTagNameMap {
-        "learnir-exp": HTMLLearnirExpElement;
+        "learnir-exp-module": HTMLLearnirExpModuleElement;
         "quiz-component": HTMLQuizComponentElement;
     }
 }
 declare namespace LocalJSX {
-    interface LearnirExp {
+    interface LearnirExpModule {
         "component"?: string;
         "consumer"?: string;
     }
@@ -51,7 +51,7 @@ declare namespace LocalJSX {
         "submitted"?: boolean;
     }
     interface IntrinsicElements {
-        "learnir-exp": LearnirExp;
+        "learnir-exp-module": LearnirExpModule;
         "quiz-component": QuizComponent;
     }
 }
@@ -59,7 +59,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "learnir-exp": LocalJSX.LearnirExp & JSXBase.HTMLAttributes<HTMLLearnirExpElement>;
+            "learnir-exp-module": LocalJSX.LearnirExpModule & JSXBase.HTMLAttributes<HTMLLearnirExpModuleElement>;
             "quiz-component": LocalJSX.QuizComponent & JSXBase.HTMLAttributes<HTMLQuizComponentElement>;
         }
     }

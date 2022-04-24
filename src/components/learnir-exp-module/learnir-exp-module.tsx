@@ -3,11 +3,11 @@ import axios from 'axios';
 import { local } from '../../utils/utils';
 
 @Component({
-  tag: 'learnir-exp',
-  styleUrl: 'learnir-exp.css',
+  tag: 'learnir-exp-module',
+  styleUrl: 'learnir-exp-module.css',
   shadow: true,
 })
-export class LearnirExp {
+export class LearnirExpModule {
 
   @Prop() component: string;
   @Prop() consumer: string;
