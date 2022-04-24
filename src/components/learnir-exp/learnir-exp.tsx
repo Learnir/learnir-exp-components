@@ -115,7 +115,7 @@ export class LearnirExp {
               </div>
               :
               <div class="loaded-component">
-                {this.data ? this.Componenter() : <p> This learning component is currently not present, please check for your internet and contact support. </p>}
+                {this.data ? this.Componenter() : <p> This learning component is currently not present, please check for your internet connection and contact support. </p>}
               </div>
             }
           </div>

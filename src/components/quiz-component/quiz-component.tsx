@@ -65,9 +65,8 @@ export class QuizComponent {
                     ))}
                   </div>
                 ))}
-                <button type="button" class="btn btn-primary mt-4" onClick={submit}>Submit</button>
+                <button class="btn btn-primary mt-4" onClick={submit}>Submit</button>
                 <p class="text-small mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
-
               </div>
               :
               <div>
@@ -103,12 +102,7 @@ export class QuizComponent {
                     </div>
                   ))}
                 </p>
-
-                <button type="button" class="btn btn-primary mt-4" onClick={() => {
-                  this.submitted = false;
-                  this.request();
-                }}>Want to redo this quiz?</button>
-
+                <button class="btn btn-primary mt-4" onClick={() => { this.submitted = false; this.request(); }}>Want to redo this quiz?</button>
               </div>
             }
           </div>
