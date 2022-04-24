@@ -1,3 +1,5 @@
+[<img src="https://learnir.co/logo.svg" width="50"/>](https://learnir.co/logo.svg)
+
 # Hey, welcome!
 This repository is the development repo for the learnir-exp-module. The module works in accordance with the console product to generate a learning experience rendering and as an outcome, interactions/submissions data.
 - Think console sets up the quiz data and then this module uses that data in a component to generate a learning experience learners interact with.

@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  run-client-builds:
+  build-learnir-exp-module:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
