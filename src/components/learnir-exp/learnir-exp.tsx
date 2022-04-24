@@ -2,9 +2,6 @@ import { Component, Host, h, Prop, State } from '@stencil/core';
 import axios from 'axios';
 import { local } from '../../utils/utils';
 
-import '@spectrum-web-components/bundle/elements.js';
-
-
 @Component({
   tag: 'learnir-exp',
   styleUrl: 'learnir-exp.css',
