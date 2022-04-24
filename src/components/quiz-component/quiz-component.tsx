@@ -16,7 +16,7 @@ export class QuizComponent {
   @Prop() submitted: boolean;
 
   @Watch('submitted')
-  HandleSubmitChanges(new_submitted: boolean, old_submmited: boolean) {
+  HandleSubmitChanges() {
     // console.log('got old_submmited: ', old_submmited);
     // console.log('got new_submitted: ', new_submitted);
   }
