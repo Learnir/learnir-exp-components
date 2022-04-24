@@ -20,6 +20,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
+          npm install
           npm run build
           cd dist/learnir-exp-module
       - name: Push generated module to its repo
