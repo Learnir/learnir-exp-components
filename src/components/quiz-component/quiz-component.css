@@ -10,6 +10,16 @@
   color: #101840;
 }
 
+*{
+  padding: 0;
+
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+
 button {
   background: #3366ff;
   border: none;
