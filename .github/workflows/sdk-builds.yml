@@ -1,0 +1,41 @@
+name: Build learnir-exp-module
+on:
+  push:
+    branches:
+      - main
+jobs:
+  run-client-builds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+      - name: Build learnir-exp, Publish for Deployment 🚀
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+        run: |
+          npm run build
+          cd dist/learnir-exp-module
+      - name: Push generated module to its repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: "dist/learnir-exp-module"
+          destination-github-username: "Learnir"
+          destination-repository-name: "learnir-exp-module"
+          user-email: henry@learnir.co
+          target-branch: main
+
+      - name: Publish to NPM
+        run: |
+          cd dist/learnir-exp-module
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_LEARNIR_TOKEN }}
