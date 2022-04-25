@@ -43,8 +43,7 @@ export class QuizComponent {
               <div>
                 {this.data["blocks"].map((block, index) => (
                   <div class="mt-4" key={index}>
-                    <h6 class="mb-3 text-bold"> {block.question} </h6>
-
+                    <h5 class="mb-2"> {block.question} </h5>
                     {block.answers.map((answer, index1) => (
                       <div key={index1} class="form-check mt-2">
                         <input
@@ -65,44 +64,39 @@ export class QuizComponent {
                     ))}
                   </div>
                 ))}
-                <button class="btn btn-primary mt-4" onClick={submit}>Submit</button>
-                <p class="text-small mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
+                <button class="mt-4" onClick={submit}>Submit</button>
+                <p class="mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
               </div>
               :
               <div>
-                <h3 class="mt-4">You have completed this quiz successfully 🏆</h3>
-                <p class="text-small mb-4"> Your interaction data for this quiz has been saved successfully. </p>
+                <h3 class="">You have completed this quiz successfully 🏆</h3>
+                <p class="mb-3"> Your interaction data for this quiz has been saved successfully. </p>
 
-                <h4 class="text-small mt-5"> Your score: </h4>
-                <p class="text-small mt-1">
+                <h4 class="mt-3"> Your score: </h4>
+                <p class="mt-1">
                   {this.data["blocks"].filter(block => block.answer == block.choice).length} of {this.data["blocks"].length} Correct ({Math.round(this.data["blocks"].filter(block => block.answer == block.choice).length / this.data["blocks"].length * 100)}%)
                 </p>
 
-                <h4 class="text-small mt-5"> The Answers: </h4>
-                <p class="text-small mt-1">
-                  {/* Render questions,  */}
-                  {this.data["blocks"].map((block, index) => (
-                    <div class="mt-4" key={index}>
-                      <h6 class="mb-3 text-bold"> {block.question} </h6>
-                      {block.answers.map((answer, index1) => (
-                        <div key={index1} class="form-check mt-2">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            name={`block-${index}`}
-                            id="flexRadioDefault2"
-                            value={answer}
-                            checked={block.answer === index1}
-                          />
-                          <label class="form-check-label" htmlFor="flexRadioDefault2">
-                            {block.answer === index1 ? answer : <s>{answer}</s>}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </p>
-                <button class="btn btn-primary mt-4" onClick={() => { this.submitted = false; this.request(); }}>Want to redo this quiz?</button>
+                <h4 class="mt-3"> The Answers: </h4>
+                {this.data["blocks"].map((block, index) => (
+                  <div class="mt-4" key={index}>
+                    <h5 class="mb-2"> {block.question} </h5>
+                    {block.answers.map((answer, index1) => (
+                      <div key={index1} class="form-check mt-2">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name={`block-${index}`}
+                          id="flexRadioDefault2"
+                          value={answer}
+                          checked={block.answer === index1}
+                        />
+                        <label class="form-check-label" htmlFor="flexRadioDefault2"> {answer}</label>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                <button class="mt-4" onClick={() => { this.submitted = false; this.request(); }}>Want to redo this quiz?</button>
               </div>
             }
           </div>
