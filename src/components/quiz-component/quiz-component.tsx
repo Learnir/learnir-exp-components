@@ -16,7 +16,7 @@ Sentry.init({
 @Component({
   tag: 'quiz-component',
   styleUrl: 'quiz-component.css',
-  shadow: true,
+  scoped: true,
 })
 export class QuizComponent {
 

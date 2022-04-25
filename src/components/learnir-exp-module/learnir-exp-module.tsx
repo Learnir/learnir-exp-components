@@ -18,7 +18,7 @@ Sentry.init({
 @Component({
   tag: 'learnir-exp-module',
   styleUrl: 'learnir-exp-module.css',
-  shadow: true,
+  scoped: true,
 })
 export class LearnirExpModule {
 
