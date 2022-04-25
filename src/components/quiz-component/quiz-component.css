@@ -4,6 +4,8 @@
   display: block;
 }
 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -15,7 +17,7 @@ button {
   outline: none;
   padding: 5px 10px 5px 10px;
   color: white;
-  border-radius: 5px;
+  border-radius: 5px !important;
   font-size: 12px;
 }
 
@@ -30,15 +32,15 @@ input[type='radio'] {
   height: 5px;
   padding: 6px;
   /* background-color only for content */
-  border: 2px solid var(--text-dim);
+  border: 2px solid var(--text-dim) !important;
   background-color: white;
-  border-radius: 50%;
+  border-radius: 50% !important;
 }
 
 /* appearance for checked radiobutton */
 input[type='radio']:checked {
   background-color: var(--brand);
-  border: 2px solid var(--brand);
+  border: 2px solid var(--brand) !important;
 }
 
 h1,
@@ -73,4 +75,11 @@ label {
 
 #dimmed {
   color: var(--text-dim);
+}
+
+.form-check {
+  display: block;
+  min-height: 1.5rem !important;
+  padding-left: 1.5em !important;
+  margin-bottom: 0.125rem !important;
 }
