@@ -103,7 +103,7 @@ export class LearnirExpModule {
         this.submitted = false;
       });
     };
-    
+
     switch (this.data["component"]) {
       case "quiz":
         return (<quiz-component
@@ -120,19 +120,21 @@ export class LearnirExpModule {
   render() {
     return (
       <Host>
-        <slot>
-          <div class="learnir-exp">
-            {this.loading ?
-              <div class="loading-component">
-                <p> Loading... </p>
-              </div>
-              :
-              <div class="loaded-component">
-                {this.data ? this.Componenter() : <p> This learning component is currently not present, please check for your internet connection and contact support. </p>}
-              </div>
-            }
-          </div>
-        </slot>
+        <link rel="stylesheet" href="/build/learnir-exp-module/learnir-exp-module.css" />
+        <link rel="stylesheet" href="/dist/learnir-exp-module/learnir-exp-module.css" />
+        <link rel="stylesheet" href="/build/learnir-exp-module.css" />
+
+        <div class="learnir-exp">
+          {this.loading ?
+            <div class="loading-component">
+              <p> Loading... </p>
+            </div>
+            :
+            <div class="loaded-component">
+              {this.data ? this.Componenter() : <p> This learning component is currently not present, please check for your internet connection and contact support. </p>}
+            </div>
+          }
+        </div>
       </Host>
     );
   }

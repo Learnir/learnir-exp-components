@@ -104,7 +104,7 @@ export class QuizComponent {
                           value={answer}
                           checked={block.answer === index1}
                         />
-                        <label class="form-check-label" htmlFor="flexRadioDefault2"> {answer}</label>
+                        <label class="form-check-label" id={`${block.answer == index1 ? "" : "dimmed"}`} htmlFor="flexRadioDefault2"> {answer}</label>
                       </div>
                     ))}
                   </div>
@@ -132,14 +132,15 @@ export class QuizComponent {
   render() {
     return (
       <Host>
-        <slot>
-          {!this.submitted && <div>
-            <h3 class=""> {this.data["title"]} </h3>
-            <p class="mt-0"> {this.data["summary"]} </p>
-          </div>}
+        <link rel="stylesheet" href="/build/learnir-exp-module/learnir-exp-module.css" />
+        <link rel="stylesheet" href="/dist/learnir-exp-module/learnir-exp-module.css" />
+        <link rel="stylesheet" href="/build/learnir-exp-module.css" />
 
-          {this.Quizzed()}
-        </slot>
+        {!this.submitted && <div>
+          <h3 class=""> {this.data["title"]} </h3>
+          <p class="mt-0"> {this.data["summary"]} </p>
+        </div>}
+        {this.Quizzed()}
       </Host>
     );
   }
