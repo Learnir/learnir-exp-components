@@ -1,5 +1,18 @@
 import { Component, Host, h, Prop, Watch } from '@stencil/core';
 
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+
 @Component({
   tag: 'quiz-component',
   styleUrl: 'quiz-component.css',
@@ -45,7 +58,7 @@ export class QuizComponent {
                   <div class="mt-4" key={index}>
                     <h5 class="mb-2"> {block.question} </h5>
                     {block.answers.map((answer, index1) => (
-                      <div key={index1} class="form-check mt-2">
+                      <div key={index1} class="form-check mt-2 align-items-center">
                         <input
                           class="form-check-input"
                           type="radio"
@@ -82,7 +95,7 @@ export class QuizComponent {
                   <div class="mt-4" key={index}>
                     <h5 class="mb-2"> {block.question} </h5>
                     {block.answers.map((answer, index1) => (
-                      <div key={index1} class="form-check mt-2">
+                      <div key={index1} class="form-check mt-2 align-items-center">
                         <input
                           class="form-check-input"
                           type="radio"

@@ -2,6 +2,19 @@ import { Component, Host, h, Prop, State } from '@stencil/core';
 import axios from 'axios';
 import { local } from '../../utils/utils';
 
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+
 @Component({
   tag: 'learnir-exp-module',
   styleUrl: 'learnir-exp-module.css',
