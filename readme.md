@@ -19,6 +19,16 @@ We welcome all productive ideas and look forward to nurturing this into somethin
 - Production version has error tracking to catch any case of errors.
 
 
+# Usage (In Product)
+The most efficient way to import learnir-exp-module in all or no framework is to simply get it using this script tag
+`<script type='module' src='https://unpkg.com/learnir-exp-module@0.6.0/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>`
+
+The render the component with this anywhere in your product as long as the script is loaded:
+`<learnir-exp-module component={"component-id"} consumer={"consumer-id-to-tag-interaction-data-to"}></learnir-exp-module>`
+
+- Further customization can be done using custom css tagging to the elements rendered.
+
+
 # Stencil
 Stencil is a compiler for building fast web apps using Web Components.
 Stencil combines the best concepts of the most popular frontend frameworks into a compile-time rather than run-time tool.  Stencil takes TypeScript, JSX, a tiny virtual DOM layer, efficient one-way data binding, an asynchronous rendering pipeline (similar to React Fiber), and lazy-loading out of the box, and generates 100% standards-based Web Components that run in any browser supporting the Custom Elements v1 spec.
