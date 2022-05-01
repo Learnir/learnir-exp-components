@@ -87,8 +87,7 @@ export class LearnirExpModule {
   // then call for new data
 
   @Watch('component')
-  watchPropHandler(newValue: string, oldValue: string) {
-    console.log('The new value of activated is: ', newValue);
+  watchPropHandler(newValue: string) {
     this.component = newValue;
     this.LoadComponentData();
   }
