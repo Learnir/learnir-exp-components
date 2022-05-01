@@ -22,16 +22,16 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Push generated module to its repo
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: "dist/learnir-exp-module"
-          destination-github-username: "Learnir"
-          destination-repository-name: "learnir-exp-module"
-          user-email: henry@learnir.co
-          target-branch: main
+      # - name: Push generated module to its repo
+      #   uses: cpina/github-action-push-to-another-repository@main
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source-directory: "dist/learnir-exp-module"
+      #     destination-github-username: "Learnir"
+      #     destination-repository-name: "learnir-exp-module"
+      #     user-email: henry@learnir.co
+      #     target-branch: main
       - name: Publish to NPM
         run: |
           npm version patch
