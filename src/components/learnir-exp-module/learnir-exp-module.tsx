@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, State, Watch } from '@stencil/core';
 import axios from 'axios';
 import { local } from '../../utils/utils';
 
@@ -22,7 +22,7 @@ Sentry.init({
 })
 export class LearnirExpModule {
 
-  @Prop() component: string;
+  @Prop({ mutable: true }) component: string;
   @Prop() consumer: string;
 
   @State() data: object; // gotten from request to api server
@@ -65,7 +65,8 @@ export class LearnirExpModule {
     ]
   };
 
-  componentWillLoad() {
+
+  LoadComponentData() {
     this.loading = true;
     axios.get(`${this.endpoint}/integration/module/component/${this.component}`).then(response => {
       this.data = response.data;
@@ -79,6 +80,21 @@ export class LearnirExpModule {
     }).catch(() => {
       this.loading = false;
     })
+  }
+
+  // when the component props changes
+  // get the new value
+  // then call for new data
+
+  @Watch('component')
+  watchPropHandler(newValue: string, oldValue: string) {
+    console.log('The new value of activated is: ', newValue);
+    this.component = newValue;
+    this.LoadComponentData();
+  }
+
+  componentWillLoad() {
+    this.LoadComponentData();
   }
 
   Componenter = () => {

@@ -9,7 +9,7 @@ This repository is the development repo for the learnir-exp-module. The module w
 
 
 We welcome all productive ideas and look forward to nurturing this into something great in terms of staying ahead of the new ways to teach and learn by the things of the future and what's happening around us in the now.
-
+- Custom components by you will get a credit tag on our components creator feature.
 
 # Development
 - Built with Stencil 

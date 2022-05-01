@@ -32,9 +32,9 @@ jobs:
           destination-repository-name: "learnir-exp-module"
           user-email: henry@learnir.co
           target-branch: main
-
       - name: Publish to NPM
         run: |
+          npm version patch
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_LEARNIR_TOKEN }}
