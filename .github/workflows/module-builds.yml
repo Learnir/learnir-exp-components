@@ -27,7 +27,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: "/"
+          source-directory: "./"
           destination-github-username: "Learnir"
           destination-repository-name: "learnir-exp-module"
           user-email: henry@learnir.co
