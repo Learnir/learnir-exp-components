@@ -6,6 +6,8 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface EmbedComponent {
+    }
     interface LearnirExpModule {
         "component": string;
         "consumer": string;
@@ -20,6 +22,12 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLEmbedComponentElement extends Components.EmbedComponent, HTMLStencilElement {
+    }
+    var HTMLEmbedComponentElement: {
+        prototype: HTMLEmbedComponentElement;
+        new (): HTMLEmbedComponentElement;
+    };
     interface HTMLLearnirExpModuleElement extends Components.LearnirExpModule, HTMLStencilElement {
     }
     var HTMLLearnirExpModuleElement: {
@@ -33,11 +41,14 @@ declare global {
         new (): HTMLQuizComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "embed-component": HTMLEmbedComponentElement;
         "learnir-exp-module": HTMLLearnirExpModuleElement;
         "quiz-component": HTMLQuizComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface EmbedComponent {
+    }
     interface LearnirExpModule {
         "component"?: string;
         "consumer"?: string;
@@ -51,6 +62,7 @@ declare namespace LocalJSX {
         "submitted"?: boolean;
     }
     interface IntrinsicElements {
+        "embed-component": EmbedComponent;
         "learnir-exp-module": LearnirExpModule;
         "quiz-component": QuizComponent;
     }
@@ -59,6 +71,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "embed-component": LocalJSX.EmbedComponent & JSXBase.HTMLAttributes<HTMLEmbedComponentElement>;
             "learnir-exp-module": LocalJSX.LearnirExpModule & JSXBase.HTMLAttributes<HTMLLearnirExpModuleElement>;
             "quiz-component": LocalJSX.QuizComponent & JSXBase.HTMLAttributes<HTMLQuizComponentElement>;
         }
