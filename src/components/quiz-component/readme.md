@@ -21,12 +21,12 @@
 
 ### Used by
 
- - [learnir-exp](../learnir-exp)
+ - [learnir-exp-module](../learnir-exp-module)
 
 ### Graph
 ```mermaid
 graph TD;
-  learnir-exp --> quiz-component
+  learnir-exp-module --> quiz-component
   style quiz-component fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
