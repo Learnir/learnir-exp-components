@@ -36,20 +36,14 @@ export class QuizComponent {
 
   Quizzed = () => {
     let submit = () => {
-      let allow = this.data["blocks"].every(block => block.choice !== undefined);
-      if (allow) {
-        this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
-          this.submitted = true;
-        }).catch(() => {
-          this.submitted = false;
-        })
-      } else {
-        alert("Your interaction data/answers aren't valid")
-      }
+      this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
+        this.submitted = true;
+      }).catch(() => {
+        this.submitted = false;
+      })
     }
-    let index = 0;
     switch (this.data["comp"]) {
-      case this.options[index].id: // single choice answering
+      case this.options[0].id: // single choice answering
         return (
           <div>
             {!this.submitted ?
@@ -77,7 +71,10 @@ export class QuizComponent {
                     ))}
                   </div>
                 ))}
-                <button class="mt-4" onClick={submit}>Submit</button>
+                <button class="mt-4" onClick={() => {
+                  let allow = this.data["blocks"].every(block => block.choice !== undefined);
+                  allow ? submit() : alert("Please select an answer for all the questions");
+                }}>Submit</button>
                 <p class="mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
               </div>
               :
@@ -114,16 +111,85 @@ export class QuizComponent {
             }
           </div>
         )
-      case this.options[index = +1].id: // multi choice answering
+
+
+      case this.options[1].id: // written response answering
         return (
           <div>
-            <p> Multi Choice... </p>
+            {!this.submitted ?
+              <div class="row">
+
+                {this.data["blocks"].map((block, index) => (
+                  <div class="mt-4 col-12" key={index}>
+                    <h5 class="mb-2"> {block.question} </h5>
+                    <div class="written-response mt-2 align-items-center">
+                      {/* <label class="form-check-label" htmlFor="flexRadioDefault2">Response</label> */}
+                      <textarea
+                        class="response-textarea"
+                        name={`block-${index}`}
+                        id="flexRadioDefault2"
+                        value={block.answer}
+                        placeholder="Response ..."
+                        onInput={(e) => {
+                          let blocks = this.data["blocks"];
+                          blocks[index].answer = e.target["value"]; // set the users answer to the block index
+                          this.data = { ...this.data, blocks };
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <div class="w-100 col-12">
+                  <button class="mt-4" onClick={() => {
+                    let allow = this.data["blocks"].every(block => block.answer);
+                    console.log("written response", allow)
+                    allow ? submit() : alert("Please fill in all answers for the questions");
+                  }}>Submit</button>
+                  <p class="mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
+                </div>
+
+              </div>
+              :
+              <div>
+                <h3 class="">You have completed this quiz successfully 🏆</h3>
+                <p class="mb-3"> Your interaction data for this quiz has been saved successfully. </p>
+
+                <h4 class="mt-3"> The Answers: </h4>
+                {this.data["blocks"].map((block, index) => (
+                  <div class="mt-4 col-12" key={index}>
+                    <h5 class="mb-2"> {block.question} </h5>
+                    <div class="written-response mt-2 align-items-center">
+                      {/* <label class="form-check-label" htmlFor="flexRadioDefault2">Response</label> */}
+                      <textarea
+                        class="response-textarea"
+                        name={`block-${index}`}
+                        id="flexRadioDefault2"
+                        value={block.answer}
+                        placeholder="Response ..."
+                        onInput={(e) => {
+                          let blocks = this.data["blocks"];
+                          blocks[index].answer = e.target["value"]; // set the users answer to the block index
+                          this.data = { ...this.data, blocks };
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <button class="mt-4" onClick={() => { this.submitted = false; this.request(); }}>Want to redo this quiz?</button>
+              </div>
+            }
+
           </div>
         )
       default:
         return (
           <div>
-            <p> Default component </p>
+            <p> The component data was recieved, but learnir-exp-module dosen't have the view for it. </p>
+            <p> Please develop the component or if your a learner(wild that this happened, send us a screenshot here team@learnir.co) </p>
+            Does it checkout:: {`${this.data["comp"] == this.options[1].id}`} <br />
+            Does it checkout:: {`${this.data["comp"]} && ${this.options[1].id}`}
           </div>
         )
     }

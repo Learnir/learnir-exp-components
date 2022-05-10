@@ -5,6 +5,7 @@
   --brand: #BB41FF;
   --text: #101840;
   --text-dim: #696f8c;
+  padding: 2em;
 }
 
 * {
@@ -42,6 +43,15 @@ input[type='radio'] {
 input[type='radio']:checked {
   background-color: var(--brand);
   border: 1px solid var(--brand) !important;
+}
+
+
+textarea{
+  min-width: 300px;
+  height: 33px;
+  min-height: 35px;
+  padding: 0.7em;
+  font-size: 12px;
 }
 
 h1,

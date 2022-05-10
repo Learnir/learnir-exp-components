@@ -46,20 +46,24 @@ export class LearnirExpModule {
             description: "Given a question, your learner will select one single choice as the answer"
           },
           {
-            id: "81299b35-98a7-4215-8633-becb304d243b",
-            title: "Multiple Choice",
-            description: "Given a question, your learner will select multiple choices together as the answer"
-          },
-          {
             id: "b55246a3-3895-4176-849d-dfec15cf698d",
             title: "Written Response",
             description: "Given a question, your learner will fill in their thoughts via an open field"
           },
+        ]
+      },
+      {
+        id: "embed",
+        image: "/images/components/quiz1.webp",
+        title: "Embed Types",
+        description: "Embed all types of pages into an iframe component. e.g Forms etc",
+        children: [
           {
-            id: "b55246a3-3895-4176-849d-dfec15cf698d",
-            title: "Fill in Blank",
-            description: "Given a sentence, your learner will complete it by filling in the right word."
-          },
+            id: "6c90cc8f-4895-4370-bdae-b0b1647a9dea",
+            title: "Single Insert",
+            description: "Copy and paste your page here and it will be rendered",
+            credit: { name: "CockroachLabs", logo: "https://console.learnir.co/images/cockroachlabs.png" }
+          }
         ]
       }
     ]
@@ -133,7 +137,7 @@ export class LearnirExpModule {
         return (<embed-component
           data={this.data}
           consumer={this.consumer}
-          options={this.components["children"][0].collection}
+          options={this.components["children"][1].collection}
           submit={SubmitInteractionData}
           request={GetInteractionData}
           submitted={this.submitted}

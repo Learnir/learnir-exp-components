@@ -21,7 +21,7 @@ We welcome all productive ideas and look forward to nurturing this into somethin
 
 # Usage (In Product)
 The most efficient way to import learnir-exp-module in all or no framework is to simply get it using this script tag
-`<script type='module' src='https://unpkg.com/learnir-exp-module@0.6.0/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>`
+`<script type='module' src='https://unpkg.com/learnir-exp-module@latest/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>`
 
 The render the component with this anywhere in your product as long as the script is loaded:
 `<learnir-exp-module component={"component-id"} consumer={"consumer-id-to-tag-interaction-data-to"}></learnir-exp-module>`
