@@ -76,6 +76,13 @@ label {
   color: var(--text);
 }
 
+
+
+.bg-light-green{
+  background: #D3F5F7;
+}
+
+
 #dimmed {
   color: var(--text-dim);
 }

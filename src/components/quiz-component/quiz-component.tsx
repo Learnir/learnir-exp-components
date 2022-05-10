@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Watch } from '@stencil/core';
+import { Component, Host, h, Prop, Watch, getAssetPath } from '@stencil/core';
 
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
@@ -17,6 +17,7 @@ Sentry.init({
   tag: 'quiz-component',
   styleUrl: 'quiz-component.css',
   scoped: true,
+  assetsDirs: ['assets']
 })
 export class QuizComponent {
 
@@ -35,6 +36,7 @@ export class QuizComponent {
   }
 
   Quizzed = () => {
+
     let submit = () => {
       this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
         this.submitted = true;
@@ -42,6 +44,9 @@ export class QuizComponent {
         this.submitted = false;
       })
     }
+
+    let camelize = (str) => str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase());
+
     switch (this.data["comp"]) {
       case this.options[0].id: // single choice answering
         return (
@@ -114,6 +119,8 @@ export class QuizComponent {
 
 
       case this.options[1].id: // written response answering
+        const imageSrc = getAssetPath(`./assets/radix-icons/info-circled.svg`);
+
         return (
           <div>
             {!this.submitted ?
@@ -155,7 +162,7 @@ export class QuizComponent {
                 <h3 class="">You have completed this quiz successfully 🏆</h3>
                 <p class="mb-3"> Your interaction data for this quiz has been saved successfully. </p>
 
-                <h4 class="mt-3"> The Answers: </h4>
+                <h4 class="mt-3"> Feedback below: </h4>
                 {this.data["blocks"].map((block, index) => (
                   <div class="mt-4 col-12" key={index}>
                     <h5 class="mb-2"> {block.question} </h5>
@@ -174,6 +181,20 @@ export class QuizComponent {
                         }}
                       />
                     </div>
+
+                    <div class="border p-2 written-response bg-light-green">
+                      {block.scoring == "exact" ?
+                          <p class={`d-flex align-items-center ${camelize(block.answer) == camelize(block.response) ? "": "text-danger"}`} >
+                            <img class='me-1' src={imageSrc} />
+                            {camelize(block.answer) == camelize(block.response) ? `Answer is correct (${block.answer})` : "Answer is incorrect"}
+                          </p>
+                          :
+                          <p class="d-flex align-items-center">
+                            <img class='me-1' src={imageSrc} /> Feedback is {block.answer}
+                          </p>
+                      }
+                    </div>
+
                   </div>
                 ))}
 

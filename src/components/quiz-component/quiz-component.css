@@ -54,6 +54,15 @@ textarea{
   font-size: 12px;
 }
 
+.written-response{
+  width: 300px;
+}
+
+.written-response p{
+  color: var(--brand);
+}
+
+
 h1,
 h2,
 h3 {
@@ -82,6 +91,11 @@ p,
 label {
   font-size: 10px;
   color: var(--text);
+}
+
+.bg-light-green{
+  background: white;
+  border-color: #DCF2EA;
 }
 
 #dimmed {
