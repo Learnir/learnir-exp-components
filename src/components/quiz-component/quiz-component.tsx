@@ -45,7 +45,7 @@ export class QuizComponent {
       })
     }
 
-    let camelize = (str) => str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase());
+    let camelize = (str) => str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase(match));
 
     switch (this.data["comp"]) {
       case this.options[0].id: // single choice answering
