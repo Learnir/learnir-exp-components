@@ -128,14 +128,23 @@ export class LearnirExpModule {
           submit={SubmitInteractionData}
           request={GetInteractionData}
           submitted={this.submitted}
-        ></quiz-component>)
+        ></quiz-component>);
+      case "embed":
+        return (<embed-component
+          data={this.data}
+          consumer={this.consumer}
+          options={this.components["children"][0].collection}
+          submit={SubmitInteractionData}
+          request={GetInteractionData}
+          submitted={this.submitted}
+        ></embed-component>)
     }
   }
 
   render() {
     return (
       <Host>
-        <div class={`learnir-exp ${local ? "p-4": ""}`}>
+        <div class={`learnir-exp ${local ? "p-4" : ""}`}>
           {this.loading ?
             <div class="loading-component">
               <p> Loading... </p>

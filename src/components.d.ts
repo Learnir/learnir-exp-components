@@ -7,6 +7,12 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface EmbedComponent {
+        "consumer": string;
+        "data": object;
+        "options": any;
+        "request": Function;
+        "submit": Function;
+        "submitted": boolean;
     }
     interface LearnirExpModule {
         "component": string;
@@ -48,6 +54,12 @@ declare global {
 }
 declare namespace LocalJSX {
     interface EmbedComponent {
+        "consumer"?: string;
+        "data"?: object;
+        "options"?: any;
+        "request"?: Function;
+        "submit"?: Function;
+        "submitted"?: boolean;
     }
     interface LearnirExpModule {
         "component"?: string;
