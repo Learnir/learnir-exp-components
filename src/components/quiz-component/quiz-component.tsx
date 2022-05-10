@@ -119,7 +119,7 @@ export class QuizComponent {
 
 
       case this.options[1].id: // written response answering
-        const imageSrc = getAssetPath(`./assets/radix-icons/info-circled.svg`);
+        const imageSrc = getAssetPath(`./assets/icons/info-circled.svg`);
 
         return (
           <div>
