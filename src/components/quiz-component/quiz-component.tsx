@@ -45,7 +45,22 @@ export class QuizComponent {
       })
     }
 
-    let camelize = (str) => str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase(match));
+    let camelize = (str) => {
+      return str && str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase(match))
+    };
+
+    let exactness_validation = (answer, response) => {
+      // take the space from from and back
+      // [based on new strings] - take away all space
+      // compare the new strings
+
+      // phylosohpy
+      // we need to match order
+      // we might need to match capitalization [optional]
+      console.log("answer", answer);
+      console.log("response", response);
+      return answer.toLowerCase().replaceAll(' ','') === response.toLowerCase().replaceAll(' ','');
+    };
 
     switch (this.data["comp"]) {
       case this.options[0].id: // single choice answering
@@ -184,14 +199,14 @@ export class QuizComponent {
 
                     <div class="border p-2 written-response bg-light-green">
                       {block.scoring == "exact" ?
-                          <p class={`d-flex align-items-center ${camelize(block.answer) == camelize(block.response) ? "": "text-danger"}`} >
-                            <img class='me-1' src={imageSrc} />
-                            {camelize(block.answer) == camelize(block.response) ? `Answer is correct (${block.answer})` : "Answer is incorrect"}
-                          </p>
-                          :
-                          <p class="d-flex align-items-center">
-                            <img class='me-1' src={imageSrc} /> Feedback is {block.answer}
-                          </p>
+                        <p class={`d-flex align-items-center ${exactness_validation(block.answer, block.response) ? "" : "text-danger"}`} >
+                          <img class='me-1' src={imageSrc} />
+                          {exactness_validation(block.answer, block.response) ? `Answer is correct (${block.answer})` : "Answer is incorrect"}
+                        </p>
+                        :
+                        <p class="d-flex align-items-center">
+                          <img class='me-1' src={imageSrc} /> Feedback is {block.answer}
+                        </p>
                       }
                     </div>
 
