@@ -194,7 +194,7 @@ export class QuizComponent {
                         </p>
                         :
                         <p class="d-flex align-items-center">
-                          <img class='me-1' src={imageSrc} /> Feedback is {block.answer}
+                          <img class='me-1' src={imageSrc} /> Feedback is {block.response}
                         </p>
                       }
                     </div>
