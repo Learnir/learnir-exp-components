@@ -45,9 +45,9 @@ export class QuizComponent {
       })
     }
 
-    let camelize = (str) => {
-      return str && str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase(match))
-    };
+    // let camelize = (str) => {
+    //   return str && str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase(match))
+    // };
 
     let exactness_validation = (answer, response) => {
       // take the space from from and back
