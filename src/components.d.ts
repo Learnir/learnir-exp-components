@@ -23,6 +23,7 @@ export namespace Components {
         "data": object;
         "options": any;
         "request": Function;
+        "reset": Function;
         "submit": Function;
         "submitted": boolean;
     }
@@ -70,6 +71,7 @@ declare namespace LocalJSX {
         "data"?: object;
         "options"?: any;
         "request"?: Function;
+        "reset"?: Function;
         "submit"?: Function;
         "submitted"?: boolean;
     }

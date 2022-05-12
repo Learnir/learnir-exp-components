@@ -74,12 +74,13 @@ export class LearnirExpModule {
     this.loading = true;
     axios.get(`${this.endpoint}/integration/module/component/${this.component}`).then(response => {
       this.data = response.data;
-      this.loading = false;
       axios.get(`${this.endpoint}/integration/module/component/interaction/${this.component}-${this.consumer}`).then(response => {
         this.data = response.data;
         this.submitted = true;
+        this.loading = false;
       }).catch(() => {
         this.submitted = false;
+        this.loading = false;
       });
     }).catch(() => {
       this.loading = false;
@@ -101,6 +102,7 @@ export class LearnirExpModule {
   }
 
   Componenter = () => {
+
     let SubmitInteractionData = (data) => {
       return new Promise((resolve, reject) => {
         axios.post(`${this.endpoint}/integration/module/component/interaction`, data).then(response => {
@@ -123,6 +125,17 @@ export class LearnirExpModule {
       });
     };
 
+    
+    let ResetInteractionData = () => {
+      axios.delete(`${this.endpoint}/integration/module/component/interaction/${this.component}-${this.consumer}`).then(response => {
+        this.data = response.data;
+        this.LoadComponentData(); // this will reload the component
+      }).catch(() => {
+        this.submitted = false;
+      });
+    };
+
+
     switch (this.data["component"]) {
       case "quiz":
         return (<quiz-component
@@ -131,6 +144,7 @@ export class LearnirExpModule {
           options={this.components["children"][0].collection}
           submit={SubmitInteractionData}
           request={GetInteractionData}
+          reset={ResetInteractionData}
           submitted={this.submitted}
         ></quiz-component>);
       case "embed":

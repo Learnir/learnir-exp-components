@@ -27,6 +27,7 @@ export class QuizComponent {
 
   @Prop() submit: Function;
   @Prop() request: Function;
+  @Prop() reset: Function;
   @Prop() submitted: boolean;
 
   @Watch('submitted')
@@ -45,24 +46,14 @@ export class QuizComponent {
       })
     }
 
-    // let camelize = (str) => {
-    //   return str && str.replace(/\W+(.)/g, (match, chr) => chr.toUpperCase(match))
-    // };
-
     let exactness_validation = (answer, response) => {
-      // take the space from from and back
-      // [based on new strings] - take away all space
-      // compare the new strings
-
-      // phylosohpy
-      // we need to match order
-      // we might need to match capitalization [optional]
-      console.log("answer", answer);
-      console.log("response", response);
-      return answer.toLowerCase().replaceAll(' ','') === response.toLowerCase().replaceAll(' ','');
+      if (answer && response) {
+        return answer.toLowerCase().replaceAll(' ', '') === response.toLowerCase().replaceAll(' ', '');
+      }
     };
 
     switch (this.data["comp"]) {
+      // single-choice response
       case this.options[0].id: // single choice answering
         return (
           <div>
@@ -131,11 +122,9 @@ export class QuizComponent {
             }
           </div>
         )
-
-
-      case this.options[1].id: // written response answering
+      // written response
+      case this.options[1].id:
         const imageSrc = getAssetPath(`./assets/icons/info-circled.svg`);
-
         return (
           <div>
             {!this.submitted ?
@@ -213,7 +202,7 @@ export class QuizComponent {
                   </div>
                 ))}
 
-                <button class="mt-4" onClick={() => { this.submitted = false; this.request(); }}>Want to redo this quiz?</button>
+                <button class="mt-4" onClick={() => { this.submitted = false; this.reset(); }}>Want to redo this quiz?</button>
               </div>
             }
 
