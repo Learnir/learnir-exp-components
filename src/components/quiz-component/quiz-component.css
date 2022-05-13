@@ -45,6 +45,29 @@ input[type='radio']:checked {
 }
 
 
+input[type='checkbox'] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* create custom radiobutton appearance */
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  padding: 6px;
+  /* background-color only for content */
+  border: 1px solid var(--text-dim) !important;
+  background-color: white;
+  border-radius: 50% !important;
+}
+
+/* appearance for checked radiobutton */
+input[type='checkbox']:checked {
+  background-color: var(--brand);
+  border: 1px solid var(--brand) !important;
+}
+
+
 textarea{
   min-width: 300px;
   height: 33px;

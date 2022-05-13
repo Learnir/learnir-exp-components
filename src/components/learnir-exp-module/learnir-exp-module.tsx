@@ -50,6 +50,11 @@ export class LearnirExpModule {
             title: "Written Response",
             description: "Given a question, your learner will fill in their thoughts via an open field"
           },
+          {
+            id: "530461b3-e3a5-430c-a792-c164dd4ffee3",
+            title: "Multi Choice",
+            description: "Given a question, your learner will select multiple answers to match as the answer"
+          },
         ]
       },
       {
@@ -125,13 +130,15 @@ export class LearnirExpModule {
       });
     };
 
-    
+
     let ResetInteractionData = () => {
+      this.loading = true;
       axios.delete(`${this.endpoint}/integration/module/component/interaction/${this.component}-${this.consumer}`).then(response => {
         this.data = response.data;
         this.LoadComponentData(); // this will reload the component
       }).catch(() => {
         this.submitted = false;
+        this.loading = false;
       });
     };
 
@@ -145,6 +152,7 @@ export class LearnirExpModule {
           submit={SubmitInteractionData}
           request={GetInteractionData}
           reset={ResetInteractionData}
+          // loading={this.loading}
           submitted={this.submitted}
         ></quiz-component>);
       case "embed":

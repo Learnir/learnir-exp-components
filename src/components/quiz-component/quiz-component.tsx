@@ -29,6 +29,7 @@ export class QuizComponent {
   @Prop() request: Function;
   @Prop() reset: Function;
   @Prop() submitted: boolean;
+  // @Prop() loading: boolean;
 
   @Watch('submitted')
   HandleSubmitChanges() {
@@ -54,7 +55,7 @@ export class QuizComponent {
 
     switch (this.data["comp"]) {
       // single-choice response
-      case this.options[0].id: // single choice answering
+      case this.options[0].id:
         return (
           <div>
             {!this.submitted ?
@@ -117,7 +118,7 @@ export class QuizComponent {
                     ))}
                   </div>
                 ))}
-                <button class="mt-4" onClick={() => { this.submitted = false; this.request(); }}>Want to redo this quiz?</button>
+                <button class="mt-4" onClick={() => { this.submitted = false; this.reset(); }}>Reset this quiz?</button>
               </div>
             }
           </div>
@@ -154,7 +155,6 @@ export class QuizComponent {
                 <div class="w-100 col-12">
                   <button class="mt-4" onClick={() => {
                     let allow = this.data["blocks"].every(block => block.answer);
-                    console.log("written response", allow)
                     allow ? submit() : alert("Please fill in all answers for the questions");
                   }}>Submit</button>
                   <p class="mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
@@ -202,19 +202,111 @@ export class QuizComponent {
                   </div>
                 ))}
 
-                <button class="mt-4" onClick={() => { this.submitted = false; this.reset(); }}>Want to redo this quiz?</button>
+                <button class="mt-4" onClick={() => { this.submitted = false; this.reset(); }}>Reset this quiz?</button>
               </div>
             }
 
+          </div>
+        )
+      // multi-choice response
+      case this.options[2].id:
+        return (
+          <div>
+            {!this.submitted ?
+              <div>
+                {this.data["blocks"].map((block, index) => (
+                  <div class="mt-4" key={index}>
+                    <h5 class="mb-2"> {block.question} </h5>
+                    {block.answers.map((answer, index1) => (
+                      <div key={index1} class="form-check mt-2 align-items-center">
+                        <input
+                          class="form-check-input mt-2"
+                          type="checkbox"
+                          name={`block-${index}-${index1}`}
+                          id={`block-${index}-${index1}`}
+                          value={answer}
+                          checked={block?.choice?.includes(answer) ? true : false}
+                          onInput={() => {
+                            let blocks = this.data["blocks"];
+                            // if block[index] choice dosent exist
+                            // create the new choice and push
+                            if (!blocks[index].choice) {
+                              blocks[index].choice = [answer]; // set the users answer to the block index
+                            } else {
+                              // check if removal or addition
+                              // removal if the answer is already in choice
+                              if (blocks[index].choice.includes(answer)) {
+                                blocks[index].choice = blocks[index].choice.filter(ans => ans !== answer)
+                              } else {
+                                // addition
+                                blocks[index].choice = [...block.choice, answer]; // set the users answer to the block index
+                              }
+                            }
+
+                            this.data = { ...this.data, blocks };
+                          }}
+                        />
+                        <label class="form-check-label" htmlFor={`block-${index}-${index1}`}>{answer}</label>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                <button class="mt-4" onClick={() => {
+                  let allow = this.data["blocks"].every(block => block.choice.length > 0);
+                  allow ? submit() : alert("Please select an answer for all the questions");
+                }}>Submit</button>
+                <p class="mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p>
+              </div>
+              :
+              <div>
+                <h3 class="">You have completed this quiz successfully 🏆</h3>
+                <p class="mb-3"> Your interaction data for this quiz has been saved successfully. </p>
+
+                <h4 class="mt-3"> Your score: </h4>
+                <p class="mt-1">
+                  {
+                    this.data["blocks"].filter((block) => {
+                      let lengths = block.answer.length == block.choice.length;
+                      let difference = block.answer.filter(x => !block.choice.includes(x));
+                      return lengths == true && difference.length == 0;
+                    }).length} of {this.data["blocks"].length} Correct
+                  ({Math.round(this.data["blocks"].filter(block => {
+                    let lengths = block.answer.length == block.choice.length;
+                    let difference = block.answer.filter(x => !block.choice.includes(x));
+                    return lengths == true && difference.length == 0;
+                  }).length / this.data["blocks"].length * 100)}%)
+                </p>
+
+                <h4 class="mt-3"> The Answers: </h4>
+                {this.data["blocks"].map((block, index) => (
+                  <div class="mt-4" key={index}>
+                    <h5 class="mb-2"> {block.question} </h5>
+                    {block.answers.map((answer, index1) => (
+                      <div key={index1} class="form-check mt-2 align-items-center">
+                        <input
+                          class="form-check-input mt-2"
+                          type="checkbox"
+                          name={`block-${index}-${index1}`}
+                          id={`block-${index}-${index1}`}
+                          value={answer}
+                          checked={block?.answer?.includes(answer) ? true : false}
+                          disabled={block?.answer?.includes(answer) ? false : true}
+                        />
+                        <label class="form-check-label" htmlFor={`block-${index}-${index1}`}>{answer}</label>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+                <button class="mt-4" onClick={() => { this.submitted = false; this.reset(); }}>Reset this quiz?</button>
+              </div>
+            }
           </div>
         )
       default:
         return (
           <div>
             <p> The component data was recieved, but learnir-exp-module dosen't have the view for it. </p>
-            <p> Please develop the component or if your a learner(wild that this happened, send us a screenshot here team@learnir.co) </p>
-            Does it checkout:: {`${this.data["comp"] == this.options[1].id}`} <br />
-            Does it checkout:: {`${this.data["comp"]} && ${this.options[1].id}`}
+            <p> Please develop the component view or if your a learner(wild that this happened, send us a screenshot here team@learnir.co) </p>
           </div>
         )
     }
