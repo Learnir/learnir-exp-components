@@ -15,9 +15,11 @@ export namespace Components {
         "submitted": boolean;
     }
     interface LearnirExpModule {
+        "box": string;
         "callback": () => void;
         "component": string;
         "consumer": string;
+        "key": string;
     }
     interface QuizComponent {
         "consumer": string;
@@ -29,9 +31,12 @@ export namespace Components {
         "submitted": boolean;
     }
     interface RewardComponent {
+        "box": string;
         "callback": () => void;
         "consumer": string;
         "data": object;
+        "endpoint": string;
+        "key": string;
         "options": any;
         "request": Function;
         "reset": Function;
@@ -81,9 +86,11 @@ declare namespace LocalJSX {
         "submitted"?: boolean;
     }
     interface LearnirExpModule {
+        "box"?: string;
         "callback"?: () => void;
         "component"?: string;
         "consumer"?: string;
+        "key"?: string;
     }
     interface QuizComponent {
         "consumer"?: string;
@@ -95,9 +102,12 @@ declare namespace LocalJSX {
         "submitted"?: boolean;
     }
     interface RewardComponent {
+        "box"?: string;
         "callback"?: () => void;
         "consumer"?: string;
         "data"?: object;
+        "endpoint"?: string;
+        "key"?: string;
         "options"?: any;
         "request"?: Function;
         "reset"?: Function;

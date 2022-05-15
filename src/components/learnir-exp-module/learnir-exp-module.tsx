@@ -1,19 +1,22 @@
 import { Component, Host, h, Prop, State, Watch } from '@stencil/core';
 import axios from 'axios';
-import { local } from '../../utils/utils';
+import { local, learnirSDK } from '../../utils/utils';
 
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
 
-Sentry.init({
-  dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
-  integrations: [new BrowserTracing()],
+if (local) {
+  Sentry.init({
+    dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
+    integrations: [new BrowserTracing()],
 
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-});
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
+
 
 @Component({
   tag: 'learnir-exp-module',
@@ -25,6 +28,10 @@ export class LearnirExpModule {
   @Prop({ mutable: true }) component: string;
   @Prop() consumer: string;
   @Prop() callback: () => void; // call by some components for completetion events, transfer of data etc.
+
+  @Prop() key: string;
+  @Prop() box: string;
+
 
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
@@ -71,9 +78,24 @@ export class LearnirExpModule {
             credit: { name: "CockroachLabs", logo: "https://console.learnir.co/images/cockroachlabs.png" }
           }
         ]
+      },
+      {
+        id: "reward",
+        image: "/images/components/quiz1.webp",
+        title: "Reward Types",
+        description: "Reward your learner with all types of mediums, from certs to real life goodies",
+        children: [
+          {
+            id: "6c90cc8f-4895-4370-bdae-b0b1647a9dea",
+            title: "Certifications",
+            description: "Select from a variety of certifications to award to your Learners",
+            credit: { name: "CockroachLabs", logo: "/images/cockroachlabs.png", url: "https://www.cockroachlabs.com/" }
+          }
+        ]
       }
     ]
   };
+
 
 
   CallBack = () => {
@@ -163,7 +185,7 @@ export class LearnirExpModule {
         return (<embed-component
           data={this.data}
           consumer={this.consumer}
-          options={this.components["children"][1].collection}
+          options={this.components["children"][1].children}
           submit={SubmitInteractionData}
           request={GetInteractionData}
           submitted={this.submitted}
@@ -172,11 +194,16 @@ export class LearnirExpModule {
         return (<reward-component
           data={this.data}
           consumer={this.consumer}
-          options={this.components["children"][2].collection}
+          box={this.box}
+          key={this.key}
+          options={this.components["children"][2].children}
+
           submit={SubmitInteractionData}
           request={GetInteractionData}
           reset={ResetInteractionData}
           callback={this.CallBack}
+
+          endpoint={this.endpoint}
           submitted={this.submitted}
         ></reward-component>);
     }
