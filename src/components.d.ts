@@ -15,10 +15,21 @@ export namespace Components {
         "submitted": boolean;
     }
     interface LearnirExpModule {
+        "callback": () => void;
         "component": string;
         "consumer": string;
     }
     interface QuizComponent {
+        "consumer": string;
+        "data": object;
+        "options": any;
+        "request": Function;
+        "reset": Function;
+        "submit": Function;
+        "submitted": boolean;
+    }
+    interface RewardComponent {
+        "callback": () => void;
         "consumer": string;
         "data": object;
         "options": any;
@@ -47,10 +58,17 @@ declare global {
         prototype: HTMLQuizComponentElement;
         new (): HTMLQuizComponentElement;
     };
+    interface HTMLRewardComponentElement extends Components.RewardComponent, HTMLStencilElement {
+    }
+    var HTMLRewardComponentElement: {
+        prototype: HTMLRewardComponentElement;
+        new (): HTMLRewardComponentElement;
+    };
     interface HTMLElementTagNameMap {
         "embed-component": HTMLEmbedComponentElement;
         "learnir-exp-module": HTMLLearnirExpModuleElement;
         "quiz-component": HTMLQuizComponentElement;
+        "reward-component": HTMLRewardComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -63,6 +81,7 @@ declare namespace LocalJSX {
         "submitted"?: boolean;
     }
     interface LearnirExpModule {
+        "callback"?: () => void;
         "component"?: string;
         "consumer"?: string;
     }
@@ -75,10 +94,21 @@ declare namespace LocalJSX {
         "submit"?: Function;
         "submitted"?: boolean;
     }
+    interface RewardComponent {
+        "callback"?: () => void;
+        "consumer"?: string;
+        "data"?: object;
+        "options"?: any;
+        "request"?: Function;
+        "reset"?: Function;
+        "submit"?: Function;
+        "submitted"?: boolean;
+    }
     interface IntrinsicElements {
         "embed-component": EmbedComponent;
         "learnir-exp-module": LearnirExpModule;
         "quiz-component": QuizComponent;
+        "reward-component": RewardComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -88,6 +118,7 @@ declare module "@stencil/core" {
             "embed-component": LocalJSX.EmbedComponent & JSXBase.HTMLAttributes<HTMLEmbedComponentElement>;
             "learnir-exp-module": LocalJSX.LearnirExpModule & JSXBase.HTMLAttributes<HTMLLearnirExpModuleElement>;
             "quiz-component": LocalJSX.QuizComponent & JSXBase.HTMLAttributes<HTMLQuizComponentElement>;
+            "reward-component": LocalJSX.RewardComponent & JSXBase.HTMLAttributes<HTMLRewardComponentElement>;
         }
     }
 }

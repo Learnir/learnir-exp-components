@@ -24,6 +24,7 @@ export class LearnirExpModule {
 
   @Prop({ mutable: true }) component: string;
   @Prop() consumer: string;
+  @Prop() callback: () => void; // call by some components for completetion events, transfer of data etc.
 
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
@@ -75,6 +76,10 @@ export class LearnirExpModule {
   };
 
 
+  CallBack = () => {
+    this.callback();
+  }
+
   LoadComponentData() {
     this.loading = true;
     axios.get(`${this.endpoint}/integration/module/component/${this.component}`).then(response => {
@@ -95,7 +100,6 @@ export class LearnirExpModule {
   // when the component props changes
   // get the new value
   // then call for new data
-
   @Watch('component')
   watchPropHandler(newValue: string) {
     this.component = newValue;
@@ -164,6 +168,17 @@ export class LearnirExpModule {
           request={GetInteractionData}
           submitted={this.submitted}
         ></embed-component>)
+      case "reward":
+        return (<reward-component
+          data={this.data}
+          consumer={this.consumer}
+          options={this.components["children"][2].collection}
+          submit={SubmitInteractionData}
+          request={GetInteractionData}
+          reset={ResetInteractionData}
+          callback={this.CallBack}
+          submitted={this.submitted}
+        ></reward-component>);
     }
   }
 
