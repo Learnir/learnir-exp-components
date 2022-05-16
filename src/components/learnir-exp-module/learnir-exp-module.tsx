@@ -1,22 +1,16 @@
 import { Component, Host, h, Prop, State, Watch } from '@stencil/core';
 import axios from 'axios';
-import { local, learnirSDK } from '../../utils/utils';
-
+import { production } from '../../utils/utils';
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
 
-if (local) {
+if (production) {
   Sentry.init({
     dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
     integrations: [new BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
   });
 }
-
 
 @Component({
   tag: 'learnir-exp-module',
@@ -35,7 +29,7 @@ export class LearnirExpModule {
   @State() loading: boolean;
   @State() submitted: boolean = false;
 
-  @State() endpoint: string = local ? "http://localhost:9060/v1" : "https://api.learnir.co/v1";;
+  @State() endpoint: string = production ? "https://api.learnir.co/v1" : "http://localhost:9060/v1";
   @State() components: object = {
     title: "Visual Component",
     description: "(Think quizes, final course section certification, Commerce to recieve payments etc) - Anything visual your learners will interact with.",
@@ -212,7 +206,7 @@ export class LearnirExpModule {
   render() {
     return (
       <Host>
-        <div class={`learnir-exp ${local ? "p-4" : ""}`}>
+        <div class={`learnir-exp ${production ? "p-4" : ""}`}>
           {this.loading ?
             <div class="loading-component">
               <p> Loading... </p>

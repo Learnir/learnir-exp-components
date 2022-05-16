@@ -1,11 +1,9 @@
 import { Component, Host, h, Prop, Watch, State } from '@stencil/core';
-import axios from 'axios';
-import { local, learnirSDK } from '../../utils/utils';
-
+import { production, learnirSDK } from '../../utils/utils';
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
 
-if (!local) {
+if (production) {
   Sentry.init({
     dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
     integrations: [new BrowserTracing()],

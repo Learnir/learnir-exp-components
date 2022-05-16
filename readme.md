@@ -24,8 +24,9 @@ The most efficient way to import learnir-exp-module in all or no framework is to
 `<script type='module' src='https://unpkg.com/learnir-exp-module@latest/dist/learnir-exp-module/learnir-exp-module.esm.js'></script>`
 
 The render the component with this anywhere in your product as long as the script is loaded:
-`<learnir-exp-module component={"component-id"} consumer={"consumer-id-to-tag-interaction-data-to"}></learnir-exp-module>`
+`<learnir-exp-module component={"component-id"} consumer={"consumer-id"} box={"box-id"} port_key={"port-access-key-from-console"}> </learnir-exp-module>`
 
+- Above is automatically setup for all portal templates
 - Further customization can be done using custom css tagging to the elements rendered.
 
 
