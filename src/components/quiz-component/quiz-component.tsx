@@ -23,6 +23,7 @@ export class QuizComponent {
   @Prop() data: object;
   @Prop() consumer: string;
   @Prop() options; // quiz options
+  @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
 
   @Prop() submit: Function;
   @Prop() request: Function;
@@ -41,6 +42,7 @@ export class QuizComponent {
     let submit = () => {
       this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
         this.submitted = true;
+        this.callback("section.complete");
       }).catch(() => {
         this.submitted = false;
       })

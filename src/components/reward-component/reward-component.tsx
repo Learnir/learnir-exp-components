@@ -31,7 +31,7 @@ export class RewardComponent {
   @Prop() request: Function;
   @Prop() reset: Function;
   @Prop() submitted: boolean;
-  @Prop() callback: () => void; // call by some components for completetion events, transfer of data etc.
+  @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
 
   @State() loading: boolean;
   @State() completed: boolean;
@@ -117,6 +117,7 @@ export class RewardComponent {
       this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
         this.generating = false;
         this.submitted = true;
+        this.callback("section.complete");
       }).catch(() => {
         this.generating = false;
         this.submitted = false;
@@ -147,7 +148,7 @@ export class RewardComponent {
                         allow ? submit() : alert("Please complete all sections to recieve certificate");
                       }}>Recieve Certificate 📜</button>
 
-                      {this.generating && <p class="mt-3"> Generating certificate, might take a minute or two. </p>}
+                      {this.generating && <p class="mt-3"> Generating certificate, will take a minute or two. </p>}
                     </div>
                     :
                     <div class="mt-4">

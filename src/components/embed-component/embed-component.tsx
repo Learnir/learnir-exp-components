@@ -21,13 +21,13 @@ export class EmbedComponent {
   @Prop() data: object;
   @Prop() consumer: string;
   @Prop() options; // quiz options
+  @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
 
   @Prop() submit: Function;
   @Prop() request: Function;
   @Prop() submitted: boolean;
 
   // takes the data and renders the project into an iframe
-
   // render iframe with width-100 and height 100
   render() {
     return (
@@ -39,7 +39,12 @@ export class EmbedComponent {
         </div>
 
         {this.data["blocks"][0]?.link ?
-          <iframe src={this.data["blocks"][0]?.link} style={{ "border": "none", width: "100%", height: "100%", minHeight: "600px" }} title="Iframe Example"></iframe>
+          <iframe src={this.data["blocks"][0]?.link}
+            style={{ "border": "none", width: "100%", height: "100%", minHeight: "600px" }} title="Iframe Example"
+            onLoad={() => {
+              this.callback("section.complete");
+            }}
+          ></iframe>
           :
           <p class="mt-0"> Iframe rendering link not found </p>
         }

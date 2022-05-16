@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface EmbedComponent {
+        "callback": (event_name) => void;
         "consumer": string;
         "data": object;
         "options": any;
@@ -16,12 +17,13 @@ export namespace Components {
     }
     interface LearnirExpModule {
         "box": string;
-        "callback": () => void;
+        "callback": (event_name) => void;
         "component": string;
         "consumer": string;
         "port_key": string;
     }
     interface QuizComponent {
+        "callback": (event_name) => void;
         "consumer": string;
         "data": object;
         "options": any;
@@ -32,7 +34,7 @@ export namespace Components {
     }
     interface RewardComponent {
         "box": string;
-        "callback": () => void;
+        "callback": (event_name) => void;
         "consumer": string;
         "data": object;
         "endpoint": string;
@@ -78,6 +80,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface EmbedComponent {
+        "callback"?: (event_name) => void;
         "consumer"?: string;
         "data"?: object;
         "options"?: any;
@@ -87,12 +90,13 @@ declare namespace LocalJSX {
     }
     interface LearnirExpModule {
         "box"?: string;
-        "callback"?: () => void;
+        "callback"?: (event_name) => void;
         "component"?: string;
         "consumer"?: string;
         "port_key"?: string;
     }
     interface QuizComponent {
+        "callback"?: (event_name) => void;
         "consumer"?: string;
         "data"?: object;
         "options"?: any;
@@ -103,7 +107,7 @@ declare namespace LocalJSX {
     }
     interface RewardComponent {
         "box"?: string;
-        "callback"?: () => void;
+        "callback"?: (event_name) => void;
         "consumer"?: string;
         "data"?: object;
         "endpoint"?: string;

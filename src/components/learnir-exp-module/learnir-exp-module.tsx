@@ -23,7 +23,7 @@ export class LearnirExpModule {
   @Prop() consumer: string;
   @Prop() port_key: string;
   @Prop() box: string;
-  @Prop() callback: () => void; // call by some components for completetion events, transfer of data etc.
+  @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
 
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
@@ -88,10 +88,12 @@ export class LearnirExpModule {
     ]
   };
 
-
-
-  CallBack = () => {
-    this.callback();
+  CallBack = (event_name) => {
+    if(this.callback){
+      this.callback(event_name);
+    }else{
+      console.log("callback function not present");
+    }
   }
 
   LoadComponentData() {
@@ -121,6 +123,7 @@ export class LearnirExpModule {
   }
 
   componentWillLoad() {
+    this.CallBack("section.visit");
     this.LoadComponentData();
   }
 
@@ -172,8 +175,8 @@ export class LearnirExpModule {
           submit={SubmitInteractionData}
           request={GetInteractionData}
           reset={ResetInteractionData}
-          // loading={this.loading}
           submitted={this.submitted}
+          callback={this.CallBack}
         ></quiz-component>);
       case "embed":
         return (<embed-component
@@ -183,6 +186,7 @@ export class LearnirExpModule {
           submit={SubmitInteractionData}
           request={GetInteractionData}
           submitted={this.submitted}
+          callback={this.CallBack}
         ></embed-component>)
       case "reward":
         return (<reward-component
@@ -191,12 +195,10 @@ export class LearnirExpModule {
           box={this.box}
           port_key={this.port_key}
           options={this.components["children"][2].children}
-
           submit={SubmitInteractionData}
           request={GetInteractionData}
           reset={ResetInteractionData}
           callback={this.CallBack}
-
           endpoint={this.endpoint}
           submitted={this.submitted}
         ></reward-component>);
