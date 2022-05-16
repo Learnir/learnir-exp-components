@@ -37,6 +37,7 @@ export class RewardComponent {
 
   @State() loading: boolean;
   @State() completed: boolean;
+  @State() generating: boolean;
   @State() uncompleted_sections = [];
 
   @Watch('submitted')
@@ -88,18 +89,22 @@ export class RewardComponent {
             if (all_sections_completed) {
               // consumer has completed the box
               this.completed = true;
+              this.loading = false;
             } else {
               // consumer has not completed the box
               this.completed = false;
               this.uncompleted_sections = box["sections"].map(section => !completions.includes(section.id));
+              this.loading = false;
             }
 
           } else {
             this.completed = false;
+            this.loading = false;
           }
-
         })
       })
+    } else {
+      this.loading = false;
     }
   }
 
@@ -110,114 +115,70 @@ export class RewardComponent {
   RewardView = () => {
 
     let submit = () => {
+      this.generating = true;
       this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
+        this.generating = false;
         this.submitted = true;
       }).catch(() => {
+        this.generating = false;
         this.submitted = false;
       })
     }
-
-    // if consumer has completed = show the button to submit the recieval confirmation
-
-    // show which sections haven't been completed
-    // inform the consumer to complete those sections
-
-
-    // okay let's recieve the certificate 
-    //
 
     switch (this.data["comp"]) {
       // certifications response
       case this.options[0].id:
         return (
           <div>
-            {!this.submitted ?
-              <div>
-                <h3 class="mt-4">Certification Recieval 🏆</h3>
-                {/* // completed or not */}
-                {this.completed ?
-                  <div class="mt-2">
-                    <p> Okay looks like you've completed all sections of this box</p>
-                    <p> Click below to recieve your certificate</p>
+            {this.loading ?
+              <div class="text-center">
+                <h3 class="mt-4">Checking if certificate recieval is valid 🤖</h3>
+                <p class="mb-3"> Loading... </p>
+              </div>
+              :
+              !this.submitted ?
+                <div class="text-center">
+                  <h3 class="mt-4">Certification Recieval 🏆</h3>
+                  {this.completed ?
+                    <div class="mt-2">
+                      <p> Okay looks like you've completed all sections of this box</p>
+                      <p> Click below to recieve your certificate</p>
 
+                      <button class="mt-4" disabled={this.generating} onClick={() => {
+                        let allow = this.completed;
+                        allow ? submit() : alert("Please complete all sections to recieve certificate");
+                      }}>Recieve Certificate 📜</button>
+
+                      {this.generating && <p class="mt-3"> Generating certificate, might take a minute or two. </p>}
+                    </div>
+                    :
+                    <div class="mt-4">
+                      <h5 class="">You still have these sections to recieve this certification:</h5>
+                      {this.uncompleted_sections.map((section, index) => (
+                        <div key={index} class="mt-2">
+                          <p>{section.title}</p>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                </div>
+                :
+                <div class="text-center">
+                  <h3 class="">Congrats on earning this certificate 🏆</h3>
+                  <p class="mb-3"> Please download it below to have your copy </p>
+
+                  <div class="w-100">
+                    <img src={this.data["certificate_image"]} class={"certificate_image"} />
+                  </div>
+
+                  <a target="_blank" href={this.data["certificate"]} download>
                     <button class="mt-4" onClick={() => {
                       let allow = this.completed;
                       allow ? submit() : alert("Please complete all sections to recieve certificate");
-                    }}>Recieve Certificate 📜</button>
+                    }}>Download Certificate 📜</button>
+                  </a>
 
-                  </div>
-                  :
-                  <div class="mt-4">
-                    <h5 class="">You still have these sections to recieve this certification:</h5>
-
-                    {this.uncompleted_sections.map((section, index) => (
-                      <div key={index} class="mt-2">
-                        <p>{section.title}</p>
-                      </div>
-                    ))}
-                  </div>
-                }
-
-                {/* {this.data["blocks"].map((block, index) => (
-                  <div class="mt-4" key={index}>
-                    <h5 class="mb-2"> {block.question} </h5>
-                    {block.answers.map((answer, index1) => (
-                      <div key={index1} class="form-check mt-2 align-items-center">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name={`block-${index}`}
-                          id="flexRadioDefault2"
-                          value={answer}
-                          checked={block.answers[block.answer].choice === index1}
-                          onInput={() => {
-                            let blocks = this.data["blocks"];
-                            blocks[index].choice = index1; // set the users answer to the block index
-                            this.data = { ...this.data, blocks };
-                          }}
-                        />
-                        <label class="form-check-label" htmlFor="flexRadioDefault2">{answer}</label>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-                <button class="mt-4" onClick={() => {
-                  let allow = this.data["blocks"].every(block => block.choice !== undefined);
-                  allow ? submit() : alert("Please select an answer for all the questions");
-                }}>Submit</button>
-                <p class="mt-3"> {this.consumer ? "" : "Identification not present, please contact support"} </p> */}
-              </div>
-              :
-              <div>
-                <h3 class="">You have completed this quiz successfully 🏆</h3>
-                <p class="mb-3"> Your interaction data for this quiz has been saved successfully. </p>
-                {/* 
-                <h4 class="mt-3"> Your score: </h4>
-                <p class="mt-1">
-                  {this.data["blocks"].filter(block => block.answer == block.choice).length} of {this.data["blocks"].length} Correct ({Math.round(this.data["blocks"].filter(block => block.answer == block.choice).length / this.data["blocks"].length * 100)}%)
-                </p>
-
-                <h4 class="mt-3"> The Answers: </h4>
-                {this.data["blocks"].map((block, index) => (
-                  <div class="mt-4" key={index}>
-                    <h5 class="mb-2"> {block.question} </h5>
-                    {block.answers.map((answer, index1) => (
-                      <div key={index1} class="form-check mt-2 align-items-center">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name={`block-${index}`}
-                          id="flexRadioDefault2"
-                          value={answer}
-                          checked={block.answer === index1}
-                        />
-                        <label class="form-check-label" id={`${block.answer == index1 ? "" : "dimmed"}`} htmlFor="flexRadioDefault2"> {answer}</label>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-                <button class="mt-4" onClick={() => { this.submitted = false; this.reset(); }}>Reset this quiz?</button> */}
-              </div>
+                </div>
             }
           </div>
         )
@@ -234,7 +195,7 @@ export class RewardComponent {
   render() {
     return (
       <Host>
-        {!this.submitted && <div>
+        {!this.submitted && <div class="text-center">
           <h3 class=""> {this.data["title"]} </h3>
           <p class="mt-0"> {this.data["summary"]} </p>
         </div>}
