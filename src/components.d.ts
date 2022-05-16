@@ -19,7 +19,7 @@ export namespace Components {
         "callback": () => void;
         "component": string;
         "consumer": string;
-        "key": string;
+        "port_key": string;
     }
     interface QuizComponent {
         "consumer": string;
@@ -36,8 +36,8 @@ export namespace Components {
         "consumer": string;
         "data": object;
         "endpoint": string;
-        "key": string;
         "options": any;
+        "port_key": string;
         "request": Function;
         "reset": Function;
         "submit": Function;
@@ -90,7 +90,7 @@ declare namespace LocalJSX {
         "callback"?: () => void;
         "component"?: string;
         "consumer"?: string;
-        "key"?: string;
+        "port_key"?: string;
     }
     interface QuizComponent {
         "consumer"?: string;
@@ -107,8 +107,8 @@ declare namespace LocalJSX {
         "consumer"?: string;
         "data"?: object;
         "endpoint"?: string;
-        "key"?: string;
         "options"?: any;
+        "port_key"?: string;
         "request"?: Function;
         "reset"?: Function;
         "submit"?: Function;

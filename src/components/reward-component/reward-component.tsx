@@ -9,10 +9,6 @@ if (!local) {
   Sentry.init({
     dsn: "https://34e64e4b44cf4a8998aa4a6394c76009@o1171719.ingest.sentry.io/6360199",
     integrations: [new BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
   });
 }
@@ -20,14 +16,15 @@ if (!local) {
 @Component({
   tag: 'reward-component',
   styleUrl: 'reward-component.css',
-  shadow: true,
+  scoped: true,
 })
+
 export class RewardComponent {
 
   @Prop() data: object;
   @Prop() consumer: string;
   @Prop() box: string;
-  @Prop() key: string;
+  @Prop() port_key: string;
   @Prop() options; // quiz options
 
   @Prop() endpoint: string;
@@ -51,23 +48,26 @@ export class RewardComponent {
   // interaction data ++ - helps us determine if component already has data stored
   // above 2 handled automatically, whether to determine by completion of all sections, determined by above
 
-
-  // 
-
   LearningCompletionData() {
     this.loading = true;
+    let learnirClient = learnirSDK(this.port_key);
 
-    let learnirClient = learnirSDK(this.key);
-
-    if (learnirClient && this.key) {
+    if (learnirClient && this.port_key && this.box) {
       learnirClient.records(this.consumer).then(events_response => {
         learnirClient.content().then(content_response => {
 
+          console.log("events_response", events_response.data);
+          console.log("content_data", content_response.data);
+          console.log("this.box", this.box);
+
           // find box learner is learning
-          let match = content_response.data.filter(choice => choice.id === this.box["id"]);
+          let match = content_response.data.filter(box => box.id == Number(this.box));
           let box = match.length > 0 ? match[0] : null;
 
+          console.log("box", box);
+
           if (box) {
+
             // get sections completed
             let sections_completed = [];
             events_response.data["events"].forEach(event => {
@@ -75,10 +75,16 @@ export class RewardComponent {
                 sections_completed.push(event.event_context.section);
               }
             });
+            console.log("sections_completed", sections_completed);
 
             // validate box complete or not
             let completions = [...new Set(sections_completed)];
             let all_sections_completed = box["sections"].every(section => completions.includes(section.id));
+
+            console.log("completions", completions);
+            console.log("all_sections_completed", all_sections_completed);
+
+
             if (all_sections_completed) {
               // consumer has completed the box
               this.completed = true;
@@ -87,7 +93,8 @@ export class RewardComponent {
               this.completed = false;
               this.uncompleted_sections = box["sections"].map(section => !completions.includes(section.id));
             }
-          }else{
+
+          } else {
             this.completed = false;
           }
 
@@ -102,18 +109,22 @@ export class RewardComponent {
 
   RewardView = () => {
 
-    // let submit = () => {
-    //   this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
-    //     this.submitted = true;
-    //   }).catch(() => {
-    //     this.submitted = false;
-    //   })
-    // }
+    let submit = () => {
+      this.submit({ identifier: `${this.data["id"]}-${this.consumer}`, ...this.data }).then(() => {
+        this.submitted = true;
+      }).catch(() => {
+        this.submitted = false;
+      })
+    }
 
     // if consumer has completed = show the button to submit the recieval confirmation
 
     // show which sections haven't been completed
     // inform the consumer to complete those sections
+
+
+    // okay let's recieve the certificate 
+    //
 
     switch (this.data["comp"]) {
       // certifications response
@@ -122,10 +133,18 @@ export class RewardComponent {
           <div>
             {!this.submitted ?
               <div>
-                <h3 class="">Certification Recieval 🏆</h3>
+                <h3 class="mt-4">Certification Recieval 🏆</h3>
                 {/* // completed or not */}
                 {this.completed ?
-                  <div class="mt-4">
+                  <div class="mt-2">
+                    <p> Okay looks like you've completed all sections of this box</p>
+                    <p> Click below to recieve your certificate</p>
+
+                    <button class="mt-4" onClick={() => {
+                      let allow = this.completed;
+                      allow ? submit() : alert("Please complete all sections to recieve certificate");
+                    }}>Recieve Certificate 📜</button>
+
                   </div>
                   :
                   <div class="mt-4">

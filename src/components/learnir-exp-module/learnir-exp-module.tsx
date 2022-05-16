@@ -27,11 +27,9 @@ export class LearnirExpModule {
 
   @Prop({ mutable: true }) component: string;
   @Prop() consumer: string;
-  @Prop() callback: () => void; // call by some components for completetion events, transfer of data etc.
-
-  @Prop() key: string;
+  @Prop() port_key: string;
   @Prop() box: string;
-
+  @Prop() callback: () => void; // call by some components for completetion events, transfer of data etc.
 
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
@@ -169,6 +167,8 @@ export class LearnirExpModule {
     };
 
 
+    console.log("this.port_key (from learnir-exp-module)", this.port_key);
+
     switch (this.data["component"]) {
       case "quiz":
         return (<quiz-component
@@ -195,7 +195,7 @@ export class LearnirExpModule {
           data={this.data}
           consumer={this.consumer}
           box={this.box}
-          key={this.key}
+          port_key={this.port_key}
           options={this.components["children"][2].children}
 
           submit={SubmitInteractionData}
