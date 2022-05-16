@@ -90,9 +90,12 @@ export class LearnirExpModule {
 
   CallBack = (event_name) => {
     if(this.callback){
+      console.log("this.callback", this.callback)
       this.callback(event_name);
     }else{
       console.log("callback function not present");
+      console.log("this.callback", this.callback)
+      // call from the inside here
     }
   }
 
