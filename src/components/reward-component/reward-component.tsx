@@ -19,7 +19,7 @@ if (production) {
 
 export class RewardComponent {
 
-  @Prop() data: object;
+  @Prop({ mutable: true }) data: object;
   @Prop() consumer: string;
   @Prop() box: string;
   @Prop() port_key: string;
@@ -30,7 +30,7 @@ export class RewardComponent {
   @Prop() submit: Function;
   @Prop() request: Function;
   @Prop() reset: Function;
-  @Prop() submitted: boolean;
+  @Prop({ mutable: true }) submitted: boolean;
   @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
 
   @State() loading: boolean;
@@ -54,16 +54,9 @@ export class RewardComponent {
     if (learnirClient && this.port_key && this.box) {
       learnirClient.records(this.consumer).then(events_response => {
         learnirClient.content().then(content_response => {
-
-          console.log("events_response", events_response.data);
-          console.log("content_data", content_response.data);
-          console.log("this.box", this.box);
-
           // find box learner is learning
           let match = content_response.data.filter(box => box.id == Number(this.box));
           let box = match.length > 0 ? match[0] : null;
-
-          console.log("box", box);
 
           if (box) {
 
@@ -74,15 +67,10 @@ export class RewardComponent {
                 sections_completed.push(event.event_context.section);
               }
             });
-            console.log("sections_completed", sections_completed);
 
             // validate box complete or not
             let completions = [...new Set(sections_completed)];
             let all_sections_completed = box["sections"].every(section => completions.includes(section.id));
-
-            console.log("completions", completions);
-            console.log("all_sections_completed", all_sections_completed);
-
 
             if (all_sections_completed) {
               // consumer has completed the box

@@ -20,7 +20,7 @@ if (production) {
 })
 export class QuizComponent {
 
-  @Prop() data: object;
+  @Prop({ mutable: true }) data: object;
   @Prop() consumer: string;
   @Prop() options; // quiz options
   @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
@@ -28,13 +28,11 @@ export class QuizComponent {
   @Prop() submit: Function;
   @Prop() request: Function;
   @Prop() reset: Function;
-  @Prop() submitted: boolean;
+  @Prop({ mutable: true }) submitted: boolean;
   // @Prop() loading: boolean;
 
   @Watch('submitted')
   HandleSubmitChanges() {
-    // console.log('got old_submmited: ', old_submmited);
-    // console.log('got new_submitted: ', new_submitted);
   }
 
   Quizzed = () => {

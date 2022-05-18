@@ -7,14 +7,8 @@
   <title>Learnir Exp Module </title>
 
   <script type="module" src="/build/learnir-exp-module.esm.js"></script>
-  <!-- <script type="module" src="/dist/learnir-exp-module.esm.js"></script> -->
   <script nomodule src="/build/learnir-exp-module.js"></script>
-
   <link rel="icon" type="image/png" href="https://learnir.co/logo.svg">
-
-  <!-- <link rel="stylesheet" href="https://unpkg.com/learnir-exp-module@0.8.0/dist/learnir-exp-module/learnir-exp-module.css" /> -->
-  <!-- <link rel="stylesheet" href="/build/learnir-exp-module/learnir-exp-module.css"> -->
-  <!-- <link rel="stylesheet" href="/dist/learnir-exp-module/learnir-exp-module.css"> -->
 </head>
 
 <body>
@@ -23,12 +17,11 @@
     port_key="329936155895136841">
   </learnir-exp-module>
 
-
   <script>
     let componentInstance = document.currentScript.previousElementSibling;
-    // componentInstance.callback = function (event_name) {
-    //   console.log("called back, hooray", event_name);
-    // }
+    componentInstance.addEventListener("callback", (event_name) => {
+      console.log("called back, hooray", event_name);
+    });
   </script>
 
 </body>

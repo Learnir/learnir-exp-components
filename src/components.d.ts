@@ -17,7 +17,6 @@ export namespace Components {
     }
     interface LearnirExpModule {
         "box": string;
-        "callback": (event_name) => void;
         "component": string;
         "consumer": string;
         "port_key": string;
@@ -90,9 +89,9 @@ declare namespace LocalJSX {
     }
     interface LearnirExpModule {
         "box"?: string;
-        "callback"?: (event_name) => void;
         "component"?: string;
         "consumer"?: string;
+        "onCallback"?: (event: CustomEvent<string>) => void;
         "port_key"?: string;
     }
     interface QuizComponent {

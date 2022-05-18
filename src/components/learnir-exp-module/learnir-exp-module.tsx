@@ -1,8 +1,11 @@
 import { Component, Host, h, Prop, State, Watch } from '@stencil/core';
+import { Event, EventEmitter } from '@stencil/core';
+
 import axios from 'axios';
 import { production } from '../../utils/utils';
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
+
 
 if (production) {
   Sentry.init({
@@ -17,13 +20,15 @@ if (production) {
   styleUrl: 'learnir-exp-module.css',
   scoped: true,
 })
+
 export class LearnirExpModule {
 
   @Prop({ mutable: true }) component: string;
   @Prop() consumer: string;
   @Prop() port_key: string;
   @Prop() box: string;
-  @Prop() callback: (event_name) => void; // call by some components for completetion events, transfer of data etc.
+  // @Prop() callback: (event_name: string) => void;
+
 
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
@@ -88,14 +93,15 @@ export class LearnirExpModule {
     ]
   };
 
+  @Event() callback: EventEmitter<string>;
+
   CallBack = (event_name) => {
-    if(this.callback){
-      console.log("this.callback", this.callback)
-      this.callback(event_name);
-    }else{
-      console.log("callback function not present");
-      console.log("this.callback", this.callback)
-      // call from the inside here
+    if (this.callback) {
+      this.callback.emit(event_name);
+      console.log("exp-callback-called");
+    } else {
+      console.log("this.callback", this.callback);
+      console.log("exp-callback-not-present");
     }
   }
 
@@ -116,9 +122,7 @@ export class LearnirExpModule {
     })
   }
 
-  // when the component props changes
-  // get the new value
-  // then call for new data
+
   @Watch('component')
   watchPropHandler(newValue: string) {
     this.component = newValue;
@@ -165,9 +169,6 @@ export class LearnirExpModule {
         this.loading = false;
       });
     };
-
-
-    console.log("this.port_key (from learnir-exp-module)", this.port_key);
 
     switch (this.data["component"]) {
       case "quiz":
