@@ -29,7 +29,6 @@ export class LearnirExpModule {
   @Prop() box: string;
   // @Prop() callback: (event_name: string) => void;
 
-
   @State() data: object; // gotten from request to api server
   @State() loading: boolean;
   @State() submitted: boolean = false;

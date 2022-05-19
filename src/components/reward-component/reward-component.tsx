@@ -160,7 +160,7 @@ export class RewardComponent {
                   <p class="mb-3"> Please download it below to have your copy </p>
 
                   <div class="w-100" >
-                    <img src={this.data["certificate_image"]} class="certificate_image" />
+                    <img src={this.data["certificate_image"]} class="certificate_image" width="70%" />
                   </div>
 
                   <a target="_blank" href={this.data["certificate"]} download>
