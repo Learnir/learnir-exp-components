@@ -47,7 +47,7 @@ export class RewardComponent {
   // interaction data ++ - helps us determine if component already has data stored
   // above 2 handled automatically, whether to determine by completion of all sections, determined by above
 
-  LearningCompletionData() {
+  ValidateCertificationRecieval() {
     this.loading = true;
     let learnirClient = learnirSDK(this.port_key);
 
@@ -61,7 +61,7 @@ export class RewardComponent {
           if (box) {
 
             // get sections completed
-            let sections_completed = [];
+            let sections_completed = [this.data["id"]]; // include the certifications type already
             events_response.data["events"].forEach(event => {
               if (event.event_name == "section.complete" && event.event_context.box === box.id) {
                 sections_completed.push(event.event_context.section);
@@ -79,7 +79,7 @@ export class RewardComponent {
             } else {
               // consumer has not completed the box
               this.completed = false;
-              this.uncompleted_sections = box["sections"].map(section => !completions.includes(section.id));
+              this.uncompleted_sections = box["sections"].filter(section => !completions.includes(section.id));
               this.loading = false;
             }
 
@@ -95,7 +95,12 @@ export class RewardComponent {
   }
 
   componentWillLoad() {
-    this.LearningCompletionData();
+    switch (this.data["comp"]) {
+      // certifications component
+      case this.options[0].id: 
+        this.ValidateCertificationRecieval();
+        break;
+    }
   }
 
   RewardView = () => {
@@ -140,10 +145,10 @@ export class RewardComponent {
                     </div>
                     :
                     <div class="mt-4">
-                      <h5 class="">You still have these sections to recieve this certification:</h5>
+                      <h5 class="">You still have {this.uncompleted_sections.length} sections to recieve this certification:</h5>
                       {this.uncompleted_sections.map((section, index) => (
                         <div key={index} class="mt-2">
-                          <p>{section.title}</p>
+                          <p class="">{section.title}</p>
                         </div>
                       ))}
                     </div>
@@ -154,15 +159,12 @@ export class RewardComponent {
                   <h3 class="">Congrats on earning this certificate 🏆</h3>
                   <p class="mb-3"> Please download it below to have your copy </p>
 
-                  <div class="w-100">
-                    <img src={this.data["certificate_image"]} class={"certificate_image"} />
+                  <div class="w-100" >
+                    <img src={this.data["certificate_image"]} class="certificate_image" />
                   </div>
 
                   <a target="_blank" href={this.data["certificate"]} download>
-                    <button class="mt-4" onClick={() => {
-                      let allow = this.completed;
-                      allow ? submit() : alert("Please complete all sections to recieve certificate");
-                    }}>Download Certificate 📜</button>
+                    <button class="mt-4">Download Certificate 📜</button>
                   </a>
 
                 </div>
